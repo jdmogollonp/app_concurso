@@ -1,0 +1,25 @@
+// Variables
+$primary: #295e62;
+$secondary: #e7f0c3;
+$info: #32afa9;
+
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+html,
+body,
+app-root {
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#routerContainer {
+  min-height: 100vh;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+$theme-colors: (primary: #343a40);
