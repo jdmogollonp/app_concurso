@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -7,9 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() { }
+  public signUp = {
+    email: '',
+    name: '',
+    lastName: '',
+    password: '',
+    passwordConfirmation: ''
+  };
 
-  ngOnInit() {
+  public loading = false;
+
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+
+  ngOnInit() { }
+
+  goHome() {
+    if (!this.loading) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  submitForm() {
+    this.loading = true;
+    this.authenticationService.signUp(this.signUp).then((data: string) => {
+      window.alert(data);
+      this.router.navigate(['/']);
+    }).catch(err => {
+      this.loading = false;
+      window.alert(err);
+    });
   }
 
 }

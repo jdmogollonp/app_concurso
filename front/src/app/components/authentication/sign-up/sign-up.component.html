@@ -1,1 +1,75 @@
-<p>sign-up works!</p>
+<div class="row full-height d-flex align-items-center bg-secondary">
+  <div class="col-lg-4 mx-auto">
+    <div class="card w-100 p-3 m-0 bg-secondary text-white border-secondary">
+      <div class="row">
+        <div class="col-2 text-right">
+          <h3><i class="fas fa-chevron-left text-white mt-4 pointer" (click)="goHome()"></i></h3>
+        </div>
+        <div class="col-8">
+          <h3>Regístrate en<br /><em class="text-shadow-lg">SmartTools</em></h3>
+          <form ngNoForm>
+
+            <div class="mt-3">
+              <label class="font-weight-bold" for="name">
+                Nombres
+              </label>
+              <input [attr.disabled]="loading ? true : null" id="name"
+                class="form-control bg-secondary border-white text-white shadow-sm" type="text" maxlength="320" required
+                [(ngModel)]="signUp.name">
+            </div>
+
+            <div class="mt-3">
+              <label class="font-weight-bold" for="lastName">
+                Apellidos
+              </label>
+              <input [attr.disabled]="loading ? true : null" id="lastName"
+                class="form-control bg-secondary border-white text-white shadow-sm" type="text" maxlength="45" required
+                [(ngModel)]="signUp.lastName">
+            </div>
+
+            <div class="mt-3">
+              <label class="font-weight-bold" for="email">
+                Correo
+              </label>
+              <input [attr.disabled]="loading ? true : null" id="email"
+                class="form-control bg-secondary border-white text-white shadow-sm" type="email" maxlength="45" required
+                [(ngModel)]="signUp.email">
+            </div>
+
+            <div class="mt-3">
+              <label class="font-weight-bold" for="password">
+                Contraseña
+              </label>
+              <input [attr.disabled]="loading ? true : null" id="password"
+                class="form-control bg-secondary border-white text-white shadow-sm" type="password" minlength="8"
+                maxlength="20" required [(ngModel)]="signUp.password">
+            </div>
+
+            <div class="mt-3">
+              <label class="font-weight-bold" for="passwordConfirmation">
+                Confirmar contraseña
+              </label>
+              <input [attr.disabled]="loading ? true : null" id="passwordConfirmation"
+                class="form-control bg-secondary border-white text-white shadow-sm" type="password" minlength="8"
+                maxlength="20" required [(ngModel)]="signUp.passwordConfirmation">
+            </div>
+            <div class="text-center mt-4">
+              <button *ngIf="!loading" class="btn btn-info border border-white" type="button"
+                (click)="submitForm()">Registrarse</button>
+              <i *ngIf="loading" class="fas fa-spin fa-spinner text-info fa-2x"></i>
+            </div>
+          </form>
+          <ng-container *ngIf="!loading">
+            <hr class="bg-white w-75 mx-auto mt-4 mb-3" />
+            <p class="mb-0 text-center small">¿Ya tienes una cuenta? <a class="text-white font-weight-bold"
+                routerLink="/signIn">Inicia sesión</a>
+            </p>
+          </ng-container>
+          <ng-container *ngIf="loading">
+            <br /><br />
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
