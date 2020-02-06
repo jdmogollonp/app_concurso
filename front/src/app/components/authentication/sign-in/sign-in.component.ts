@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignInComponent implements OnInit {
 
-  constructor() { }
+  public signIn = {
+    email: '',
+    password: ''
+  };
 
-  ngOnInit() {
+  public loading = false;
+
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+
+  ngOnInit() { }
+
+  goHome() {
+    if (!this.loading) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  submitForm() {
+    this.loading = true;
+    this.authenticationService.signIn(this.signIn).then((data: string) => {
+      this.authenticationService.storeToken(data);
+      this.router.navigate(['/']);
+    }).catch(err => {
+      this.loading = false;
+      window.alert(err);
+    });
   }
 
 }
