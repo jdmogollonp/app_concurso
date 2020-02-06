@@ -29,11 +29,12 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  submitForm() {
+  submitForm(event) {
+    event.preventDefault();
     this.loading = true;
     this.authenticationService.signUp(this.signUp).then((data: string) => {
       window.alert(data);
-      this.router.navigate(['/']);
+      this.router.navigate(['/signIn']);
     }).catch(err => {
       this.loading = false;
       window.alert(err);

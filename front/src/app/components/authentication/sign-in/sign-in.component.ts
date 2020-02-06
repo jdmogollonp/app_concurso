@@ -26,11 +26,12 @@ export class SignInComponent implements OnInit {
     }
   }
 
-  submitForm() {
+  submitForm(event) {
+    event.preventDefault();
     this.loading = true;
     this.authenticationService.signIn(this.signIn).then((data: string) => {
       this.authenticationService.storeToken(data);
-      this.router.navigate(['/']);
+      this.router.navigate(['/administrator/contests']);
     }).catch(err => {
       this.loading = false;
       window.alert(err);

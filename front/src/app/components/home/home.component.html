@@ -2,12 +2,22 @@
   <div class="col-12">
     <h1 class="mb-0 text-white text-shadow"><em>SmartTools</em></h1>
   </div>
-  <div class="col-md-6">
-    <button routerLink="/signIn" class="btn btn-lg btn-primary border border-white">Iniciar sesión</button>
-  </div>
-  <div class="col-md-6">
-    <button routerLink="/signUp" class="btn btn-lg btn-info border border-white">Registrarse</button>
-  </div>
+  <ng-container *ngIf="!token">
+    <div class="col-md-6">
+      <button routerLink="/signIn" class="btn btn-lg btn-primary border border-white">Iniciar sesión</button>
+    </div>
+    <div class="col-md-6">
+      <button routerLink="/signUp" class="btn btn-lg btn-info border border-white">Registrarse</button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="token">
+    <div class="col-md-6">
+      <button routerLink="/administrator/contests" class="btn btn-lg btn-primary border border-white">Concursos</button>
+    </div>
+    <div class="col-md-6">
+      <button (click)="logOut()" class="btn btn-lg btn-danger border border-white">Cerrar sesión</button>
+    </div>
+  </ng-container>
   <div class="col-12 text-white">
     <h6>Desarrollado por:</h6>
     <h5>Gabriel Pinto - Juan Mogollón - Mateo Sanabria</h5>

@@ -7,7 +7,7 @@
         </div>
         <div class="col-8">
           <h3>Inicia sesión en<br /><em class="text-shadow-lg">SmartTools</em></h3>
-          <form ngNoForm>
+          <form ngNoForm (submit)="submitForm($event)">
             <div class="mt-3">
               <label class="font-weight-bold" for="email">
                 Correo
@@ -26,8 +26,7 @@
                 maxlength="20" required [(ngModel)]="signIn.password">
             </div>
             <div class="text-center mt-4">
-              <button *ngIf="!loading" class="btn btn-info border border-white" type="button"
-                (click)="submitForm()">Iniciar sesión</button>
+              <button *ngIf="!loading" class="btn btn-info border border-white" type="submit">Iniciar sesión</button>
               <i *ngIf="loading" class="fas fa-spin fa-spinner text-info fa-2x"></i>
             </div>
           </form>
