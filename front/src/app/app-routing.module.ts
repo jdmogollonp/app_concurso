@@ -28,6 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'administrator/contests',
+    // guarda
     canLoad: [AuthenticatedGuard],
     loadChildren: () =>
       import('./modules/contests-administration/contests-administration.module').then(

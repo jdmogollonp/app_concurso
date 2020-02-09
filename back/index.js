@@ -11,6 +11,8 @@ app.use(cors({
     origin: allowedOrigin
 }));
 
+
+app.use(require('./routes/contestRoutes'))
 authApi(app);
 
 app.listen(port, host, () => {
