@@ -35,6 +35,13 @@ const routes: Routes = [
       )
   },
   {
+    path: 'contests/:url',
+    loadChildren: () =>
+      import('./modules/contest/contest.module').then(
+        m => m.ContestModule
+      )
+  },
+  {
     path: '',
     pathMatch: 'full',
     component: HomeComponent

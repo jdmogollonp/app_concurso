@@ -1,6 +1,6 @@
 const mysql = require('../libraries/mysql');
 
-class AdministratosService {
+class AdministratorsService {
 
     constructor() {
         this.table = 'administrators';
@@ -55,4 +55,4 @@ class AdministratosService {
     }
 }
 
-module.exports = AdministratosService;
+module.exports = AdministratorsService;
