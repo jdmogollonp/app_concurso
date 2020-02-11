@@ -23,9 +23,7 @@ export class HttpHelperService {
   // Return the header object
   getOptionsHeaders() {
     return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+      headers: {}
     };
   }
 
