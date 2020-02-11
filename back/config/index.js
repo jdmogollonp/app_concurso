@@ -11,6 +11,7 @@ const config = {
     authJwtSecret: process.env.AUTH_JWT_SECRET,
     originalVideosPath: process.env.ORIGINAL_VIDEOS_PATH || 'uploads/videos/original',
     processedVideosPath: process.env.PROCESSED_VIDEOS_PATH || 'uploads/videos/processed',
+    production: process.env.NODE_ENV ? true : false
 };
 
 module.exports = config;

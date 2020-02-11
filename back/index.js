@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const createFolder = require('./libraries/createFolder');
-const { port, host, allowedOrigin, processedVideosPath, originalVideosPath } = require('./config/index');
+const { port, host, allowedOrigin, processedVideosPath, originalVideosPath, production } = require('./config/index');
 const path = require('path');
 
 const originalVideos = path.join(__dirname, originalVideosPath);
@@ -27,6 +27,14 @@ app.use(cors({
 
 contestsApi(app);
 authApi(app);
+
+if (production) {
+    app.use(express.static(__dirname + '/../public'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname + '/../public/index.html'));
+    });
+    console.log('Running in production mode');
+}
 
 app.listen(port, host, () => {
     console.log(`The server is running on http://localhost:${port}`);
