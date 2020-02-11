@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+// en la variable? (funcion?) environment esta la dirrecion de la api
 import { environment } from 'src/environments/environment';
 import { HttpHelperService } from '../http-helper/http-helper.service';
 import { AuthenticationService } from '../authentication/authentication.service';
@@ -11,6 +12,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 export class ContestService {
 
   // url contests
+  // acuerdese que en el rout de contest debe enrutar a /api/contests
   private apiUrl = `${environment.apiUrl}contests/`;
 
   constructor(private http: HttpHelperService, private authenticationService:AuthenticationService) { }
