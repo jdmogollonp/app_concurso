@@ -46,7 +46,7 @@ const contestsApi = (app) => {
 
             const contestantId = await contestantsService.createOrUpdateContestant(email, name, lastName);
             const videoFileName = `${originalVideosPath}/${url}_${new Date().getTime()}${path.extname(videoFile.name)}`
-            videoFile.mv(`${__dirname}/../${videoFileName}`).then(async () => {
+            videoFile.mv(`${__dirname}/../../${videoFileName}`).then(async () => {
                 await videosService.createVideo(contest.id, contestantId, videoFileName, message);
                 res.status(201).json({
                     data: `Hemos recibido tu video y lo estamos procesado para que sea publicado. Tan pronto el video quede publicado en la página del concurso te notificaremos por email.`
