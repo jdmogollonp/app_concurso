@@ -7,6 +7,7 @@ const ContestantsService = require('../services/contestants');
 const VideosService = require('../services/videos');
 
 
+
 const contestsApi = (app) => {
     const router = express.Router();
     app.use('/api/contests', router);
@@ -182,6 +183,19 @@ const contestsApi = (app) => {
                 errors: ['Error cargando los videos', error]
             });
         }
+    });
+
+    // Get all contests
+    router.get('/all', async (req, res) => {
+        try {
+            const contests = await contestsService.getContests()
+            res.status(200).json(contests)
+        } catch (error) {
+            res.status(404).json({
+                errors: ['Error cargando los concursos', error]
+            });
+        }
+
     });
 
 
