@@ -28,13 +28,13 @@ app.use(cors({
 contestsApi(app);
 authApi(app);
 
-// if (production) {
-//     app.use(express.static(__dirname + '/../public'));
-//     app.get('*', (req, res) => {
-//         res.sendFile(path.join(__dirname + '/../public/index.html'));
-//     });
-//     console.log('Running in production mode');
-// }
+if (production) {
+    app.use(express.static(__dirname + '/../public'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname + '/../public/index.html'));
+    });
+    console.log('Running in production mode');
+}
 
 app.listen(port, host, () => {
     console.log(`The server is running on http://localhost:${port}`);
