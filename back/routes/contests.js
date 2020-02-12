@@ -16,7 +16,7 @@ const contestsApi = (app) => {
     const contestantsService = new ContestantsService();
     const videosService = new VideosService();
     // The administrartor Updates a contest
-    router.put('/edit/:id', verifyToken, async (req, res) => {
+    router.put('administrartor/edit/:id', verifyToken, async (req, res) => {
         try {
             const idadmin = req.decodedToken.sub
             const { id } = req.params;
@@ -59,7 +59,7 @@ const contestsApi = (app) => {
     });
 
     // The administrartor Creatres a contest
-    router.post('/new',verifyToken, async (req,res)=>{
+    router.post('administrartor/new',verifyToken, async (req,res)=>{
         try {
             const idadmin = req.decodedToken.sub
             const {name, image, url, start_date, end_date, description} = req.body ;
@@ -144,6 +144,27 @@ const contestsApi = (app) => {
         }
     });
 
+    // Gets the info of a contest
+    router.get('/:url', async (req, res) => {
+        try {
+            const { url } = req.params;
+            const contest = await contestsService.getContestByUrl(url);
+            if (contest) {
+                res.json({
+                    data: contest
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No existe un concurso esa url `]
+                });
+            }
+        } catch (error) {
+            res.status(400).json({
+                errors: [`Error cargando la informacion del concurso `, error]
+            });
+        }
+    });
+
     // Gets the info of a video
     router.get('/:url/videos/:id', async (req, res) => {
         try {
@@ -170,14 +191,15 @@ const contestsApi = (app) => {
     // Gets all the videos from :url contest
     router.get('/:url/videos', async (req, res, next) => {
         try {
-            console.log('get videos');
             const { url } = req.params;
+            console.log('Esta entrando a el concuros  '+url);
             const contest = await contestsService.getContestByUrl(url);
             const idcontest = contest.id;
             const events = await videosService.getVideos(idcontest);
             res.json({
                 data: events
             });
+            console.log(events);
         } catch (error) {
             res.status(404).json({
                 errors: ['Error cargando los videos', error]

@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
+import { ContestService } from './services/contest/contest.service'
 
 @NgModule({
   declarations: [
@@ -15,7 +16,9 @@ import { HomeComponent } from './components/home/home.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    ContestService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
