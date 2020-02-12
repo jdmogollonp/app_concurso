@@ -28,11 +28,17 @@ const routes: Routes = [
   },
   {
     path: 'administrator/contests',
-    // guarda
     canLoad: [AuthenticatedGuard],
     loadChildren: () =>
       import('./modules/contests-administration/contests-administration.module').then(
         m => m.ContestsAdministrationModule
+      )
+  },
+  {
+    path: 'contests/:url',
+    loadChildren: () =>
+      import('./modules/contest/contest.module').then(
+        m => m.ContestModule
       )
   },
   {

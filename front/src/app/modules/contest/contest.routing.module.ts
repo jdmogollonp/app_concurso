@@ -1,5 +1,5 @@
 // --------- Components --------- //
-import { ContestsAdministrationComponent } from '../../components/contests-administration/contests-administration.component';
+import { ContestComponent } from 'src/app/components/contest/contest.component';
 
 // --------- Modules --------- //
 import { NgModule } from '@angular/core';
@@ -8,7 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    component: ContestsAdministrationComponent
+    component: ContestComponent
   }
 ];
 
@@ -16,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ContestsAdministrationRoutingModule { }
+export class ContestRoutingModule { }

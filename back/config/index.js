@@ -8,7 +8,9 @@ const config = {
     dbPassword: process.env.DB_PASSWORD,
     dbHost: process.env.DB_HOST,
     dbName: process.env.DB_NAME,
-    authJwtSecret: process.env.AUTH_JWT_SECRET
+    authJwtSecret: process.env.AUTH_JWT_SECRET,
+    originalVideosPath: process.env.ORIGINAL_VIDEOS_PATH || 'uploads/videos/original',
+    processedVideosPath: process.env.PROCESSED_VIDEOS_PATH || 'uploads/videos/processed',
 };
 
 module.exports = config;

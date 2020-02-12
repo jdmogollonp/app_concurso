@@ -17,10 +17,8 @@ export class SignInComponent implements OnInit {
   public loading = false;
 
   constructor(private authenticationService: AuthenticationService, private router: Router) { }
-  // primera functionque se ejecuta
-  ngOnInit() {
 
-   }
+  ngOnInit() { }
 
   goHome() {
     if (!this.loading) {
@@ -31,13 +29,11 @@ export class SignInComponent implements OnInit {
   submitForm(event) {
     event.preventDefault();
     this.loading = true;
-    //  : any[]
     this.authenticationService.signIn(this.signIn).then((data: string) => {
       this.authenticationService.storeToken(data);
       this.router.navigate(['/administrator/contests']);
     }).catch(err => {
       this.loading = false;
-      // alerta del navegador
       window.alert(err);
     });
   }
