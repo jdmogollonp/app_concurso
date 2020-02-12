@@ -3,6 +3,8 @@
 
 @import '../node_modules/bootstrap/scss/bootstrap';
 
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+
 html,
 body,
 app-root {
@@ -10,6 +12,7 @@ app-root {
   height: auto;
   margin: 0;
   overflow-x: hidden;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 #routerContainer {
