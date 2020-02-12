@@ -7,11 +7,11 @@ const createFolder = require('./libraries/createFolder');
 const { port, host, allowedOrigin, processedVideosPath, originalVideosPath, production } = require('./config/index');
 const path = require('path');
 
-const originalVideos = path.join(__dirname, originalVideosPath);
+const originalVideos = path.join(__dirname, '..', originalVideosPath);
 createFolder(originalVideos);
 app.use(originalVideosPath, express.static(originalVideos));
 
-const processedVideos = path.join(__dirname, processedVideosPath);
+const processedVideos = path.join(__dirname, '..', processedVideosPath);
 createFolder(processedVideos);
 app.use(processedVideosPath, express.static(processedVideos));
 
@@ -28,13 +28,13 @@ app.use(cors({
 contestsApi(app);
 authApi(app);
 
-if (production) {
-    app.use(express.static(__dirname + '/../public'));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname + '/../public/index.html'));
-    });
-    console.log('Running in production mode');
-}
+// if (production) {
+//     app.use(express.static(__dirname + '/../public'));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname + '/../public/index.html'));
+//     });
+//     console.log('Running in production mode');
+// }
 
 app.listen(port, host, () => {
     console.log(`The server is running on http://localhost:${port}`);
