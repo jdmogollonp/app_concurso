@@ -6,6 +6,7 @@ const ContestsService = require('../services/contests');
 const ContestantsService = require('../services/contestants');
 const VideosService = require('../services/videos');
 
+
 const contestsApi = (app) => {
     const router = express.Router();
     app.use('/api/contests', router);
@@ -13,7 +14,7 @@ const contestsApi = (app) => {
     const contestsService = new ContestsService();
     const contestantsService = new ContestantsService();
     const videosService = new VideosService();
-    // Updates an event
+    // The administrartor Updates a contest
     router.put('/edit/:id', verifyToken, async (req, res) => {
         try {
             const idadmin = req.decodedToken.sub
@@ -55,6 +56,8 @@ const contestsApi = (app) => {
             });
         }
     });
+
+    // The administrartor Creatres a contest
     router.post('/new',verifyToken, async (req,res)=>{
         try {
             const idadmin = req.decodedToken.sub
@@ -87,6 +90,8 @@ const contestsApi = (app) => {
         }
 
     });
+
+    // A user post a new video in the :url contest
     router.post('/:url/videos', async (req, res) => {
         try {
             const { url } = req.params;
@@ -134,6 +139,47 @@ const contestsApi = (app) => {
         } catch (error) {
             res.status(400).json({
                 errors: [`Error cargando el video`, error]
+            });
+        }
+    });
+
+    // Gets the info of a video
+    router.get('/:url/videos/:id', async (req, res) => {
+        try {
+            const { id, url } = req.params;
+            const contest = await contestsService.getContestByUrl(url);
+            const idcontest = contest.id;
+            const event = await videosService.getVideoInfo( id, idcontest);
+            if (event) {
+                res.json({
+                    data: event
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No existe un video en el concurso  con id `]
+                });
+            }
+        } catch (error) {
+            res.status(400).json({
+                errors: [`Error cargando el video con id  dentro del concurso `, error]
+            });
+        }
+    });
+
+    // Gets all the videos from :url contest
+    router.get('/:url/videos', async (req, res, next) => {
+        try {
+            console.log('get videos');
+            const { url } = req.params;
+            const contest = await contestsService.getContestByUrl(url);
+            const idcontest = contest.id;
+            const events = await videosService.getVideos(idcontest);
+            res.json({
+                data: events
+            });
+        } catch (error) {
+            res.status(404).json({
+                errors: ['Error cargando los videos', error]
             });
         }
     });
