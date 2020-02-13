@@ -128,7 +128,3 @@ class ContestsService {
 module.exports = ContestsService;
 
 
-}
-
-module.exports = ContestsService;
-
