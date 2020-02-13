@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpHelperService } from '../http-helper/http-helper.service';
 // import { HttpClient } from '@angular/common/http';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +22,6 @@ export class ContestService {
       this.http.getRequest(`${this.apiUrl}${url}/videos${id}`, '', resolve, reject);
     });
   }
-
 
   uploadVideo(url: string, videoFile: File, { name, lastName, message, email }) {
     return new Promise((resolve, reject) => {

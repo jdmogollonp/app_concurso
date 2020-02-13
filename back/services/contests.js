@@ -100,6 +100,53 @@ class ContestsService {
             }
         });
     }
+    // Delete contest
+    deleteContest(idadmin, idcontest) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const connection = await mysql.connect();
+                let query = `DELETE FROM ${this.table} WHERE administrator_id = ? AND id = ?`;
+                connection.query(query, [idadmin, idcontest], (err, results, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return reject(err);
+                    } else {
+                        if (results.affectedRows) {
+                            resolve(results.affectedRows);
+                        } else {
+                            resolve(null);
+                        }
+                    }
+                });
+                connection.release();
+            } catch (error) {
+                console.log(error);
+                reject(error);
+            }
+        });
+    }   
+    // Gets all contest
+    getContests() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const connection = await mysql.connect();
+                const query = `SELECT * FROM ${this.table}`;
+                connection.query(query, [], async (err, results, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return reject(err);
+                    } else {
+                        resolve(results);
+                        console.log(results)
+                    }
+                });
+                connection.release();
+            } catch (error) {
+                console.log(error);
+                reject(error);
+            }
+        });
+    }
 
     // Gets all contest
     getContests() {
@@ -126,3 +173,5 @@ class ContestsService {
 }
 
 module.exports = ContestsService;
+
+

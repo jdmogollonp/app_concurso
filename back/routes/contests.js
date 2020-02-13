@@ -60,7 +60,7 @@ const contestsApi = (app) => {
     });
 
     // The administrartor Creatres a contest
-    router.post('administrartor/new',verifyToken, async (req,res)=>{
+    router.post('/administrartor/new',verifyToken, async (req,res)=>{
         try {
             const idadmin = req.decodedToken.sub
             const {name, image, url, start_date, end_date, description} = req.body ;
@@ -212,7 +212,9 @@ const contestsApi = (app) => {
     });
 
     // Get all contests
-    router.get('/all', async (req, res) => {
+
+    router.get('/administrartor/all',verifyToken, async (req, res) => {
+
         try {
             const contests = await contestsService.getContests()
             res.status(200).json(contests)
@@ -224,9 +226,22 @@ const contestsApi = (app) => {
 
     });
 
+    router.delete('/administrator/delete/:idcontest', verifyToken,  async (req, res) => {
+        const idadmin = req.decodedToken.sub;
+        const { idcontest } = req.params;
+        try {
+            const contests = await contestsService.deleteContest(idadmin, idcontest)
+            res.status(200).json(contests)
+        } catch (error) {
+            res.status(404).json({
+                errors: ['Error borrando los concursos', error]
+            });
+        }
+
+    });
+
+
 
 };
 
 module.exports = contestsApi;
-
-
