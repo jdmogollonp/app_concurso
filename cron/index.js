@@ -6,10 +6,10 @@ const app = express();
 const { exec } = require("child_process");
 const fs = require('fs');
 const path = require('path');
-const CronJob = require('cron').CronJob;
+const cron = require('node-cron');
 const proccesedFolder = process.env.PROCESSED_VIDEOS_PATH;
 const port = process.env.PORT || 3002;
-const cronTime = process.env.CRON_TIME || '* */5 * * * *';
+const cronTime = process.env.CRON_TIME || '*/2 * * * *';
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -36,23 +36,18 @@ const connect = () => {
 const executeTask = ({ id, original_video, email, name, last_name }) => {
     if (fs.existsSync(path.join('..', original_video))) {
         const contestUrl = original_video.split('/')[4].split('_')[0];
-        const newFileName = `${proccesedFolder}/${contestUrl}_${new Date().getTime()}.mp4`;
+        const newFileName = `${proccesedFolder}/${contestUrl}_${id}.mp4`;
         const command = `ffmpeg -i ${path.join('..', original_video)} -c:v h264 -c:a aac ${path.join('..', newFileName)}`;
         exec(command, async (error, stdout, stderr) => {
-            if (error) {
-                console.log(`------------ Command error ------------`);
-                console.log(error.message);
-                return;
-            }
-
+            console.log(`------------ Command executed for video with id ${id} ------------`);
             if (fs.existsSync(path.join('..', newFileName))) {
                 const connection = await connect();
-                connection.query('UPDATE videos SET converted_video = ?, status = 1', [newFileName], (err, results, fields) => {
+                connection.query('UPDATE videos SET converted_video = ?, status = 1 WHERE id = ?', [newFileName, id], (err, results, fields) => {
                     if (err) {
-                        console.log('Error while updating video url');
+                        console.log('------------ Error while updating video url ------------');
                         console.log(err);
                     } else {
-                        console.log(`Video with id ${id} updated`);
+                        console.log(`------------ Video with id ${id} updated ------------`);
                     }
                 });
                 connection.release();
@@ -70,7 +65,7 @@ const taskExecution = async () => {
     console.log('------------  Running Cron Job on ' + new Date() + '  ------------');
     try {
         const connection = await connect();
-        connection.query('SELECT * FROM videos v JOIN contestants c ON v.contestant_id = c.id WHERE status = 0', (err, results, fields) => {
+        connection.query('SELECT v.id, v.original_video, c.name, c.last_name, c.email FROM videos v JOIN contestants c ON v.contestant_id = c.id WHERE status = 0', (err, results, fields) => {
             if (err) {
                 console.log('Error while getting data');
                 console.log(err);
@@ -89,12 +84,11 @@ const taskExecution = async () => {
     }
 };
 
-const job = new CronJob(cronTime, () => {
+cron.schedule(cronTime, () => {
     taskExecution();
 });
 
 taskExecution();
-job.start();
 
 app.listen(port, () => {
     console.log(`Cron is running on ${port}`);

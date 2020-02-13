@@ -7,28 +7,20 @@ class ContestantsService {
     }
 
     // Creates or updates a contestant
-    createOrUpdateContestant(email, name, lastName) {
+    createContestant(email, name, lastName) {
         return new Promise(async (resolve, reject) => {
             try {
                 const connection = await mysql.connect();
-                const query = `INSERT INTO ${this.table} (email, name, last_name) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE name=?, last_name=?`;
-                connection.query(query, [email, name, lastName, name, lastName], async (err, results, fields) => {
+                const query = `INSERT INTO ${this.table} (email, name, last_name) VALUES(?, ?, ?)`;
+                connection.query(query, [email, name, lastName], async (err, results, fields) => {
                     if (err) {
                         console.log(err);
                         return reject(err);
                     } else {
-                        if (!results.insertId) {
-                            const newQuery = `SELECT * FROM ${this.table} WHERE email = ?`;
-                            connection.query(newQuery, [email], async (err, results, fields) => {
-                                if (err) {
-                                    console.log(err);
-                                    return reject(err);
-                                } else {
-                                    resolve(results[0] ? results[0].id : null);
-                                }
-                            });
-                        } else {
+                        if (results.insertId) {
                             resolve(results.insertId);
+                        } else {
+                            resolve(null);
                         }
                     }
                 });
