@@ -1,7 +1,6 @@
 const mysql = require('mysql');
 const { dbHost: host, dbName: database, dbPassword: password, dbUser: user } = require('../config/index');
 const pool = mysql.createPool({
-    connectionLimit: 20,
     host,
     database,
     user,
