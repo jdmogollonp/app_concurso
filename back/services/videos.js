@@ -5,6 +5,7 @@ class VideosService {
     constructor() {
         this.table = 'videos';
     }
+
     // Gets the video information
     getVideoInfo( videoId, idcontest) {
        return new Promise(async (resolve, reject) => {
@@ -48,6 +49,7 @@ class VideosService {
         });
     }
 
+
     // Creates a new video
     createVideo(contestId, contestantId, originalVideo, message) {
         return new Promise(async (resolve, reject) => {
@@ -75,4 +77,6 @@ class VideosService {
     }
 }
 
+
 module.exports = VideosService;
+

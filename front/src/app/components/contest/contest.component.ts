@@ -17,14 +17,12 @@ export class ContestComponent implements OnInit {
 
 
   ngOnInit() {
-    this.contestService.getVideos(this.url)
-      .subscribe(
-        res => {
-          this.videos = res;
-        },
-        err => console.error(err)
-      );
-      console.log(this.videos)
+    this.contestService.getVideos(this.url).then(data => {
+      this.videos = data;
+    }).catch(err => {
+        window.alert(err);
+      });
+
   }
 
 

@@ -1,17 +1,29 @@
-<h1>contest videos</h1>
-<ul>
- <li *ngFor="let video of videos"> (1)
-   {{ video.message }}
- </li>
-</ul>
 
-<!-- <div class="col-md-4" *ngFor="let video of videos">
-  <div class="card text-center">
-    <div class="card-header">
-      {video.id}
+
+<div class="card p-5 border-secondary bg-secondary shadow">
+  <h1 style="text-align: center;" >
+    Esta es la lista de los videos que han sido publicados <br>
+    Aniamate a participar!
+  </h1>
+  <div class="col-sm my-auto" *ngFor="let video of videos">
+    <div class="card text-center">
+      <div class="card-header bg-dark text-white text-center">
+        {{video.id}}
+        <!-- <button class="btn btn-danger" (click)="videodetail(video.id)">
+          <i class="far fa-trash-alt"></i>
+          </button> -->
+      </div>
+      <!-- <img class="card-img-top" [src]="video.image"> -->
+      <img src="https://lh3.googleusercontent.com/proxy/j5FGX3QfLvC_yZmfQ_fyuFQvBMe-T-zXcuvr4ETBC4hdywcEFepNI6tB_QWhOHN9WSQXiJfzFVrRwtAk95eX6U-3EfwHw_G-aFSAOfq1G_Tc0ily_ttzXUlFPo2Bei4Be9D36Ia3eO0ILAEmNQcx8ZqnFyrr2Z8AI7d3_1X0tUo6hgvaQfpbR4feOnjr2kuoVmlNYQ" class="rounded mx-auto d-block" alt="Responsive image">
+      {{video.original_video}}
+      <div class="card-body">
+        <p>{{video.message}}</p>
+        <p>Publicado: {{video.creation_date | date: 'yyyy-MM-dd'}}</p>
+        <p>Participante: XXXXXXXXXXXX</p>
+        <!-- <a [routerLink]="['/videos/edit', video.id]" class="btn btn-info btn-block">
+          EDIT GAME
+        </a> -->
+      </div>
     </div>
   </div>
-</div> -->
-
-
-<!-- {videos} -->
+</div>

@@ -1,25 +1,181 @@
-<div class="row d-flex align-items-center text-center full-height bg-secondary">
-  <div class="col-12">
-    <h1 class="mb-0 text-white text-shadow"><em>SmartTools</em></h1>
+<!--<div class="full-height bg-secondary">
+  <div class="row d-flex align-items-center">
+    <div class="col-8 pl-5 pt-4">
+      <h2 class="mb-0 text-shadow text-white"><em>SmartTools</em></h2>
+    </div>
+    <div class="col-4 text-right pr-5 pt-4">
+      <button routerLink="/signIn" class="btn bg-secondary text-white">Iniciar sesión</button>
+    </div>
+     <div class="col-12 row d-flex align-items-center">
+      <div class="col-6">
+        <h1 class="mb-0 text-white text-shadow"><em>SmartTools</em></h1>
+      </div>
+    </div>
+    <ng-container *ngIf="!token">
+      <div class="col-md-6">
+        <button routerLink="/signIn" class="btn btn-lg btn-primary border border-white">Iniciar sesión</button>
+      </div>
+      <div class="col-md-6">
+        <button routerLink="/signUp" class="btn btn-lg btn-info border border-white">Registrarse</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="token">
+      <div class="col-md-6">
+        <button routerLink="/administrator/contests"
+          class="btn btn-lg btn-primary border border-white">Concursos</button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="logOut()" class="btn btn-lg btn-danger border border-white">Cerrar sesión</button>
+      </div>
+    </ng-container>
+    <div class="col-12 text-white">
+      <h6>Desarrollado por:</h6>
+      <h5>Gabriel Pinto - Juan Mogollón - Mateo Sanabria</h5>
+    </div>
   </div>
-  <ng-container *ngIf="!token">
-    <div class="col-md-6">
-      <button routerLink="/signIn" class="btn btn-lg btn-primary border border-white">Iniciar sesión</button>
+</div>-->
+
+
+<div id="A">
+  <div class="row d-flex align-items-center">
+    <div class="col-8 pl-5 pt-4">
+      <h3 class="mb-0 text-white"><em>SmartTools</em></h3>
     </div>
-    <div class="col-md-6">
-      <button routerLink="/signUp" class="btn btn-lg btn-info border border-white">Registrarse</button>
+    <div class="col-4 text-right pr-5 pt-4">
+      <button id="signInButton" routerLink="/signIn" class="btn btn-primary shadow rounded text-white">Iniciar
+        sesión</button>
     </div>
-  </ng-container>
-  <ng-container *ngIf="token">
-    <div class="col-md-6">
-      <button routerLink="/administrator/contests" class="btn btn-lg btn-primary border border-white">Concursos</button>
+    <div class="col-12 text-center mt-4">
+      <h1>¡Crea concursos únicos y emocionantes!</h1>
     </div>
-    <div class="col-md-6">
-      <button (click)="logOut()" class="btn btn-lg btn-danger border border-white">Cerrar sesión</button>
+    <div class="col-12">
+      <br />
     </div>
-  </ng-container>
-  <div class="col-12 text-white">
-    <h6>Desarrollado por:</h6>
-    <h5>Gabriel Pinto - Juan Mogollón - Mateo Sanabria</h5>
+    <div class="col-6 mx-auto text-center mb-3">
+      <h5>Te brindamos todas las herramientas necesarias para crear concursos basados en videos con una interfaz
+        única y muy fácil de usar para tus participantes</h5>
+    </div>
   </div>
+</div>
+
+<div id="B">
+  <div class="row d-flex align-items-center mt-3">
+    <div class="col-12 text-center mb-5">
+      <h2 class="font-weight-bold">¿Cómo creo un concurso? 🤔</h2>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-info text-white border-info shadow font-weight-bold">
+          1
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4>
+          Define un nombre y un banner
+        </h4>
+      </div>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-info text-white border-info shadow font-weight-bold">
+          2
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4 class="mb-0">
+          Configura la URL única de acceso
+        </h4>
+      </div>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-info text-white border-info shadow font-weight-bold">
+          3
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4 class="mb-0">
+          Comparte la URL del concurso
+        </h4>
+      </div>
+    </div>
+  </div>
+  <hr class="bg-secondary w-75 mx-auto">
+  <div class="row d-flex align-items-center mt-5 mb-0">
+    <div class="col-12 text-center mb-5">
+      <h2 class="font-weight-bold">¿Cómo pueden participar en mi concurso? 🎥</h2>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-primary text-white border-primary shadow font-weight-bold">
+          1
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4 class="mb-0">
+          Acceden a la URL única
+        </h4>
+      </div>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-primary text-white border-primary shadow font-weight-bold">
+          2
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4 class="mb-0">
+          Cargan un video creativo con un mensaje descriptivo
+        </h4>
+      </div>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-primary text-white border-primary shadow font-weight-bold">
+          3
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4 class="mb-0">
+          Procesamos el video para que sea totalmente compatible
+        </h4>
+      </div>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-primary text-white border-primary shadow font-weight-bold">
+          4
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4 class="mb-0">
+          Notificamos por correo al participante sobre su video
+        </h4>
+      </div>
+    </div>
+    <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+      <div class="col-2 text-center m-0 p-0">
+        <div
+          class="mx-auto number-div d-flex align-items-center justify-content-center bg-primary text-white border-primary shadow font-weight-bold">
+          5
+        </div>
+      </div>
+      <div class="col-10 ml-0 pl-0">
+        <h4 class="mb-0">
+          Publicamos el video en el muro del concurso
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="C" class="bg-secondary">
+  <!-- <h1>Hola</h1> -->
 </div>
