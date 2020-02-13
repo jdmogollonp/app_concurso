@@ -5,6 +5,7 @@ class ContestsService {
     constructor() {
         this.table = 'contests';
     }
+
     // Gets a contest by url
     getIdContestByUrl(url) {
         return new Promise(async (resolve, reject) => {
@@ -27,6 +28,7 @@ class ContestsService {
         });
     }
 
+
     // Gets a contest by url
     getContestByUrl(url) {
         return new Promise(async (resolve, reject) => {
@@ -48,6 +50,7 @@ class ContestsService {
             }
         });
     }
+
     // Cretates new contest by the admin
     createContest( idadmin, { name, image, url, start_date, end_date, description }) { return new Promise(async (resolve, reject) => {
           try {
@@ -124,4 +127,8 @@ class ContestsService {
 
 module.exports = ContestsService;
 
+
+}
+
+module.exports = ContestsService;
 

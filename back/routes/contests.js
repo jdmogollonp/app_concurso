@@ -15,6 +15,7 @@ const contestsApi = (app) => {
     const contestsService = new ContestsService();
     const contestantsService = new ContestantsService();
     const videosService = new VideosService();
+
     // The administrartor Updates a contest
     router.put('administrartor/edit/:id', verifyToken, async (req, res) => {
         try {
@@ -126,7 +127,9 @@ const contestsApi = (app) => {
 
             const contestantId = await contestantsService.createOrUpdateContestant(email, name, lastName);
             const videoFileName = `${originalVideosPath}/${url}_${new Date().getTime()}${path.extname(videoFile.name)}`
-            videoFile.mv(`${__dirname}/../${videoFileName}`).then(async () => {
+
+            videoFile.mv(`${__dirname}/../../${videoFileName}`).then(async () => {
+
                 await videosService.createVideo(contest.id, contestantId, videoFileName, message);
                 res.status(201).json({
                     data: `Hemos recibido tu video y lo estamos procesado para que sea publicado. Tan pronto el video quede publicado en la página del concurso te notificaremos por email.`
@@ -143,6 +146,7 @@ const contestsApi = (app) => {
             });
         }
     });
+
 
     // Gets the info of a contest
     router.get('/:url', async (req, res) => {
@@ -224,3 +228,6 @@ const contestsApi = (app) => {
 };
 
 module.exports = contestsApi;
+=======
+
+

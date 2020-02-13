@@ -1,17 +1,10 @@
-<h1>contest videos</h1>
-<ul>
- <li *ngFor="let video of videos"> (1)
-   {{ video.message }}
- </li>
-</ul>
 
-<!-- <div class="col-md-4" *ngFor="let video of videos">
-  <div class="card text-center">
-    <div class="card-header">
-      {video.id}
-    </div>
+<div class="row">
+  <div class="col-12">
+    <h3>Información del concurso</h3>
   </div>
-</div> -->
+  <div class="col-lg-5 mx-auto mt-4 mb-4">
+    <app-upload-video [url]="url"></app-upload-video>
+  </div>
+</div>
 
-
-<!-- {videos} -->
