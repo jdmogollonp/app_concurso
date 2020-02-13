@@ -37,7 +37,7 @@ const executeTask = ({ id, original_video, email, name, last_name }) => {
     if (fs.existsSync(path.join('..', original_video))) {
         const contestUrl = original_video.split('/')[4].split('_')[0];
         const newFileName = `${proccesedFolder}/${contestUrl}_${id}.mp4`;
-        const command = `ffmpeg -i ${path.join('..', original_video)} -c:v h264 -c:a aac ${path.join('..', newFileName)}`;
+        const command = `ffmpeg -i ${path.join('..', original_video)} -c:v h264 -c:a aac -strict -2 ${path.join('..', newFileName)}`;
         exec(command, async (error, stdout, stderr) => {
             console.log(`------------ Command executed for video with id ${id} ------------`);
             if (fs.existsSync(path.join('..', newFileName))) {
