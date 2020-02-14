@@ -151,12 +151,14 @@ const contestsApi = (app) => {
     // Gets the info of a contest
     router.get('/:url', async (req, res) => {
         try {
+            console.log('Esta pidiendo info de concuros');
             const { url } = req.params;
             const contest = await contestsService.getContestByUrl(url);
             if (contest) {
                 res.json({
                     data: contest
                 });
+                console.log(contest);
             } else {
                 res.status(404).json({
                     errors: [`No existe un concurso esa url `]
@@ -192,18 +194,16 @@ const contestsApi = (app) => {
         }
     });
 
-    // Gets all the videos from :url contest
+    // Gets all the video information with the correspondent contesta information from :url contest
     router.get('/:url/videos', async (req, res, next) => {
         try {
             const { url } = req.params;
-            console.log('Esta entrando a el concuros  '+url);
             const contest = await contestsService.getContestByUrl(url);
             const idcontest = contest.id;
-            const events = await videosService.getVideos(idcontest);
+            const events = await videosService.getVideosContestant(idcontest);
             res.json({
                 data: events
             });
-            console.log(events);
         } catch (error) {
             res.status(404).json({
                 errors: ['Error cargando los videos', error]
@@ -212,7 +212,6 @@ const contestsApi = (app) => {
     });
 
     // Get all contests
-
     router.get('/administrartor/all',verifyToken, async (req, res) => {
 
         try {
@@ -239,6 +238,32 @@ const contestsApi = (app) => {
         }
 
     });
+
+    // Gets contestant info
+    router.get('/:url', async (req, res) => {
+        try {
+            console.log('Esta pidiendo info de concuros');
+            const { url } = req.params;
+            const { id } = req.body
+            const idcontestant = await contestService.getIdContestByUrl(url)
+            const contestant = await contestantsService.getcontestant(url,id);
+            if (contestant) {
+                res.json({
+                    data: contestant
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No existe un Participante con esa id en ese concurso `]
+                });
+            }
+        } catch (error) {
+            res.status(400).json({
+                errors: [`Error cargando la informacion del participante `, error]
+            });
+        }
+    });
+
+
 
 
 

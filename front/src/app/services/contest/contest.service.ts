@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpHelperService } from '../http-helper/http-helper.service';
-// import { HttpClient } from '@angular/common/http';
+
 
 
 @Injectable({
@@ -12,6 +12,11 @@ export class ContestService {
   private apiUrl = `${environment.apiUrl}contests/`;
 
   constructor(private http: HttpHelperService) { }
+  getContest(url:string){
+    return new Promise( (resolve,reject) => {
+      this.http.getRequest(`${this.apiUrl}${url}`,'',resolve,reject);
+    });
+  }
   getVideos(url:string) {
     return new Promise((resolve, reject) => {
       this.http.getRequest(`${this.apiUrl}${url}/videos`, '', resolve, reject);

@@ -1,37 +1,91 @@
-
-<div class="card p-5 border-secondary bg-secondary shadow">
-  <h1 style="text-align: center;" >
-    Esta es la lista de los videos que han sido publicados <br>
-    Aniamate a participar!
-  </h1>
-  <div class="col-sm my-auto" *ngFor="let video of videos">
-    <div class="card text-center">
-      <div class="card-header bg-dark text-white text-center">
-        {{video.id}}
-        <!-- <button class="btn btn-danger" (click)="videodetail(video.id)">
-          <i class="far fa-trash-alt"></i>
-          </button> -->
-      </div>
-      <!-- <img class="card-img-top" [src]="video.image"> -->
-      <img src="https://lh3.googleusercontent.com/proxy/j5FGX3QfLvC_yZmfQ_fyuFQvBMe-T-zXcuvr4ETBC4hdywcEFepNI6tB_QWhOHN9WSQXiJfzFVrRwtAk95eX6U-3EfwHw_G-aFSAOfq1G_Tc0ily_ttzXUlFPo2Bei4Be9D36Ia3eO0ILAEmNQcx8ZqnFyrr2Z8AI7d3_1X0tUo6hgvaQfpbR4feOnjr2kuoVmlNYQ" class="rounded mx-auto d-block" alt="Responsive image">
-      {{video.original_video}}
-      <div class="card-body">
-        <p>{{video.message}}</p>
-        <p>Publicado: {{video.creation_date | date: 'yyyy-MM-dd'}}</p>
-        <p>Participante: XXXXXXXXXXXX</p>
-        <!-- <a [routerLink]="['/videos/edit', video.id]" class="btn btn-info btn-block">
-          EDIT GAME
-        </a> -->
-      </div>
-    </div>
-  </div>
+<!-- <div class="container">
+<p*ngIf="admistatorInfo"> Somos cracks </p>
+</div> -->
+<!-- boton de prueba/-* -->
+<div class="col-md-6">
+  <button (click)="logOut()" class="btn btn-lg btn-danger border border-white">Cerrar sesión</button>
 </div>
 
+  <div class="jumbotron d-flex mb-5 ">
+    <div class="row d-flex align-items-center">
+      <div class="col-8 pl-5 pt-4">
+        <h1 class="mb-0 font-weight-bold"><em>{{contest.name}}</em></h1>
+      </div>
+      <div class="col-4 text-right pr-5 pt-4">
+        <button id="newvideoButton" routerLink="/signIn" class="btn btn-primary shadow rounded text-white">Nuevo video</button>
+      </div>
+      <div class="col-12 text-center mt-4">
+        <div class="row d-flex align-items-center mt-3">
+          <div class="col-7 row d-flex align-items-center mx-auto mb-5">
+            <h4>
+              {{contest.description}}
+            </h4>
+          </div>
+          <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" alt="Sheep">
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+
+        <br />
+      </div>
+      <div class="col-10 mx-auto text-center mb-3 text-white">
+        <h3>A continuacion encontraras todos los videos que han sido subidos al concuro. Recuerda que la fecha inicio es el {{contest.start_date | date: 'yyyy-MM-dd'}} y termina {{contest.end_date | date: 'yyyy-MM-dd' }}. <br/> <br> Animate a participar!  </h3>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-image table-hover ">
+        <thead class="black thead-light">
+          <tr>
+            <th scope="col" class="text-center">Video</th>
+            <th scope="col" class="text-center">Descripcion</th>
+            <th scope="col" class="text-center">Autor</th>
+            <th *ngIf="admistatorInfo" scope="col" class="text-center">Apellido</th>
+            <th *ngIf="admistatorInfo" scope="col" class="text-center">Email</th>
+            <th scope="col" class="text-center">Publicacion</th>
+            <th *ngIf="admistatorInfo" scope="col" class="text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let video of videos" >
+            <td  class="w-25" >
+              <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" >
+            </td>
+            <td class="text-center" class="text-center">{{video.message}}</td>
+            <td class="text-center" class="text-center">{{video.name}}</td>
+            <td *ngIf="admistatorInfo"  class="text-center">
+              {{video.last_name}}
+            </td>
+            <td *ngIf="admistatorInfo" class="text-center">
+              {{video.email}}
+            </td>
+            <td class="text-center">{{video.creation_date | date: 'yyyy-MM-dd'}}</td>
+            <td *ngIf="admistatorInfo" class="text-center">
+              <ng-container *ngIf="video.status === 0">
+                Sin convertir
+              </ng-container>
+              <ng-container *ngIf="video.status == 1">
+                Convertido
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+
 <!-- <div class="row">
-  <div class="col-12">
-    <h3>Información del concurso</h3>
-  </div>
-  <div class="col-lg-5 mx-auto mt-4 mb-4">
-    <app-upload-video [url]="url"></app-upload-video>
-  </div>
+<div class="col-12">
+<h3>Información del concurso</h3>
+</div>
+<div class="col-lg-5 mx-auto mt-4 mb-4">
+<app-upload-video [url]="url"></app-upload-video>
+</div>
 </div> -->

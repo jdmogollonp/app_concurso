@@ -28,11 +28,12 @@ class VideosService {
        });
     }
     // Gets all the videos from an contest
-    getVideos(idcontest) {
+    getVideosContestant(idcontest) {
         return new Promise(async (resolve, reject) => {
             try {
                 const connection = await mysql.connect();
-                const query = `SELECT id, status, creation_date, message, original_video, converted_video, contestant_id FROM ${this.table} WHERE contest_id = ? ORDER BY creation_date DESC`;
+                const query = 'SELECT * FROM videos INER JOIN contestants ON contestant_id = contestants.id where contest_id = ? ORDER BY creation_date DESC '
+                // const query = `SELECT id, status, creation_date, message, original_video, converted_video, contestant_id FROM ${this.table} WHERE contest_id = ? ORDER BY creation_date DESC`;
                 connection.query(query, [idcontest], (err, results, fields) => {
                     if (err) {
                         console.log(err);
@@ -79,4 +80,3 @@ class VideosService {
 
 
 module.exports = VideosService;
-

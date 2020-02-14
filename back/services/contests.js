@@ -6,7 +6,7 @@ class ContestsService {
         this.table = 'contests';
     }
 
-    // Gets a contest by url
+    // Gets the idcontest by url
     getIdContestByUrl(url) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -124,7 +124,7 @@ class ContestsService {
                 reject(error);
             }
         });
-    }   
+    }
     // Gets all contest
     getContests() {
         return new Promise(async (resolve, reject) => {
@@ -173,5 +173,3 @@ class ContestsService {
 }
 
 module.exports = ContestsService;
-
-
