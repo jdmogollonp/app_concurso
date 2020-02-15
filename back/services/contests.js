@@ -170,6 +170,31 @@ class ContestsService {
         });
     }
 
+
+    uploadImage(idadmin,idcontest,fileName){
+        return new Promise( async(resolve, reject)=>{
+            try {
+                const connection = await mysql.connect();
+                let query = `UPDATE ${this.table} SET image = ?  WHERE id = ? AND administrator_id = ?;`;
+                connection.query(query, [fileName, idcontest, idadmin], (err, results, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return reject(err);
+                    } else {
+                        if (results.affectedRows) {
+                            resolve(results.affectedRows);
+                        } else {
+                            resolve(null);
+                        }
+                    }
+                });
+                connection.release();
+            } catch (error) {
+                console.log(error);
+                reject(error);
+            }          
+        })
+    }
 }
 
 module.exports = ContestsService;

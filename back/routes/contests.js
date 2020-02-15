@@ -12,6 +12,7 @@ const contestsApi = (app) => {
     const router = express.Router();
     app.use('/api/contests', router);
 
+
     const contestsService = new ContestsService();
     const contestantsService = new ContestantsService();
     const videosService = new VideosService();
@@ -264,6 +265,24 @@ const contestsApi = (app) => {
                 errors: [`Error cargando la informacion del participante `, error]
             });
         }
+    });
+
+    router.post('/administrator/upload-image/:idcontest',verifyToken ,  async (req, res) => {
+        const idadmin = req.decodedToken.sub;
+        const { idcontest } = req.params;
+        const ImageFiles = req.files.image
+        const ImageFileName = `${new Date().getTime()}${path.extname(ImageFiles.name)}`
+        ImageFiles.mv(`${__dirname}/../uploads/images/${ImageFileName}`).then(async () => {
+        //console.log(req.files)
+            try {
+                const contests = await contestsService.uploadImage(idadmin, idcontest,ImageFileName)
+                res.status(200).json(contests)
+            } catch (error) {
+                res.status(404).json({
+                    errors: ['Error borrando los concursos', error]
+                });
+             }
+        })
     });
 
 
