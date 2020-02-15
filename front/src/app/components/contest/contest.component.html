@@ -1,10 +1,9 @@
-<!-- <div class="container">
-<p*ngIf="admistatorInfo"> Somos cracks </p>
-</div> -->
 <!-- boton de prueba/-* -->
-<div class="col-md-6">
+<!-- <div class="col-md-6">
   <button (click)="logOut()" class="btn btn-lg btn-danger border border-white">Cerrar sesión</button>
-</div>
+</div> -->
+<div class="container">
+
 
   <div class="jumbotron d-flex mb-5 ">
     <div class="row d-flex align-items-center">
@@ -46,46 +45,63 @@
             <th scope="col" class="text-center">Autor</th>
             <th *ngIf="admistatorInfo" scope="col" class="text-center">Apellido</th>
             <th *ngIf="admistatorInfo" scope="col" class="text-center">Email</th>
-            <th scope="col" class="text-center">Publicacion</th>
+            <th scope="col" class="text-center">F.Publicacion</th>
             <th *ngIf="admistatorInfo" scope="col" class="text-center">Status</th>
           </tr>
         </thead>
         <tbody>
+
           <tr *ngFor="let video of videos" >
-            <td  class="w-25" >
-              <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" >
-            </td>
-            <td class="text-center" class="text-center">{{video.message}}</td>
-            <td class="text-center" class="text-center">{{video.name}}</td>
-            <td *ngIf="admistatorInfo"  class="text-center">
-              {{video.last_name}}
-            </td>
-            <td *ngIf="admistatorInfo" class="text-center">
-              {{video.email}}
-            </td>
-            <td class="text-center">{{video.creation_date | date: 'yyyy-MM-dd'}}</td>
-            <td *ngIf="admistatorInfo" class="text-center">
-              <ng-container *ngIf="video.status === 0">
-                Sin convertir
-              </ng-container>
-              <ng-container *ngIf="video.status == 1">
-                Convertido
-              </ng-container>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            <!-- por que no funciona con el else? -->
+            <!-- <ng-container *ngIf=" (video.status == 1) &&  !admistatorInfo;  else show"> -->
+            <ng-container *ngIf=" (video.status == 1) &&  !admistatorInfo">
+
+              <td  class="w-25" >
+                <!-- <video src="../../../assets/Video Of Bokeh Lights.mp4" controls width="200px" poster="posterimage.jpg"> -->
+
+                <!-- </video> -->
+                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" >
+              </td>
+              <td class="text-center" class="text-center">{{video.message}}</td>
+              <td class="text-center" class="text-center">{{video.name}}</td>
+              <td class="text-center">{{video.creation_date | date: 'yyyy-MM-dd'}}</td>
+            </ng-container>
+            <ng-container *ngIf="admistatorInfo">
+              <td  class="w-25" >
+                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" >
+              </td>
+              <td class="text-center" class="text-center">{{video.message}}</td>
+              <td class="text-center" class="text-center">{{video.name}}</td>
+              <td  class="text-center">
+                {{video.last_name}}
+              </td>
+              <td class="text-center">
+                {{video.email}}
+              </td>
+              <td class="text-center">{{video.creation_date | date: 'yyyy-MM-dd'}}</td>
+              <td *ngIf="admistatorInfo" class="text-center">
+                <ng-container *ngIf="video.status === 0">
+                  Sin convertir
+                </ng-container>
+                <ng-container *ngIf="video.status == 1">
+                  Convertido
+                </ng-container>
+              </td>
+
+            </ng-container>
+
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!--
+<div class="row">
+  <div class="col-12">
+    <h3>Información del concurso</h3>
   </div>
-
-
-
-
-<!-- <div class="row">
-<div class="col-12">
-<h3>Información del concurso</h3>
-</div>
-<div class="col-lg-5 mx-auto mt-4 mb-4">
-<app-upload-video [url]="url"></app-upload-video>
-</div>
+  <div class="col-lg-5 mx-auto mt-4 mb-4">
+    <app-upload-video [url]="url"></app-upload-video>
+  </div>
 </div> -->

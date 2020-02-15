@@ -9,11 +9,8 @@ const path = require('path');
 const cron = require('node-cron');
 const proccesedFolder = process.env.PROCESSED_VIDEOS_PATH;
 const port = process.env.PORT || 3002;
-const cronTime = process.env.CRON_TIME || '*/1 * * * *';
-
-console.log(cronTime);
-
-
+const cronTime = process.env.CRON_TIME || '*/2 * * * *';
+const details = require("./details.json");
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
@@ -37,43 +34,30 @@ const connect = () => {
 // ffmpeg input.avi -c:v h264 -c:a aac output.mp4
 
 const executeTask = ({ id, original_video, email, name, last_name }) => {
-    try {
-
-
-        if (fs.existsSync(path.join('..', original_video))) {
-            const contestUrl = original_video.split('/')[4].split('_')[0];
-            const newFileName = `${proccesedFolder}/${contestUrl}_${new Date().getTime()}.mp4`;
-            const command = `ffmpeg -i ${path.join('..', original_video)} -c:v h264 -c:a aac ${path.join('..', newFileName)}`;
-            console.log(`------------ Executing command for video with id ${id} ------------`);
-            exec(command, async (error, stdout, stderr) => {
-                if (error) {
-                    console.log(`------------ Command error ------------`);
-                    console.log(error.message);
-                    return;
-                }
-
-                if (fs.existsSync(path.join('..', newFileName))) {
-                    console.log(`------------ The video with id ${id} was processed ------------`);
-                    const connection = await connect();
-                    connection.query('UPDATE videos SET converted_video = ?, status = 1', [newFileName], (err, results, fields) => {
-                        if (err) {
-                            console.log('Error while updating video url');
-                            console.log(err);
-                        } else {
-                            console.log(`Video with id ${id} updated`);
-                        }
-                    });
-                    connection.release();
-                } else {
-                    console.log(`------------ Error: Processed video not saved for "${original_video}" ------------`);
-                }
-            });
-        } else {
-            console.log(`------------ Error: Video "${original_video}" is not present ------------`);
-        }
-    } catch (error) {
-        console.log(`------------ Error while processing video with id ${id} ------------`);
-        console.log(error);
+    if (fs.existsSync(path.join('..', original_video))) {
+        const contestUrl = original_video.split('/')[4].split('_')[0];
+        const newFileName = `${proccesedFolder}/${contestUrl}_${id}.mp4`;
+        const command = `ffmpeg -i ${path.join('..', original_video)} -c:v h264 -c:a aac -strict -2 ${path.join('..', newFileName)}`;
+        exec(command, async (error, stdout, stderr) => {
+            console.log(`------------ Command executed for video with id ${id} ------------`);
+            if (fs.existsSync(path.join('..', newFileName))) {
+                const connection = await connect();
+                connection.query('UPDATE videos SET converted_video = ?, status = 1 WHERE id = ?', [newFileName, id], (err, results, fields) => {
+                    if (err) {
+                        console.log('------------ Error while updating video url ------------');
+                        console.log(err);
+                      } else {
+                        console.log(`------------ Video with id ${id} updated ------------`);
+                        sendMail(email,name, last_name)
+                    }
+                });
+                connection.release();
+            } else {
+                console.log(`------------ Error: Processed video not saved for "${original_video}" ------------`);
+            }
+        });
+    } else {
+        console.log(`------------ Error: Video "${original_video}" is not present ------------`);
     }
 };
 
@@ -82,7 +66,7 @@ const taskExecution = async () => {
     console.log('------------  Running Cron Job on ' + new Date() + '  ------------');
     try {
         const connection = await connect();
-        connection.query('SELECT * FROM videos v JOIN contestants c ON v.contestant_id = c.id WHERE status = 0', (err, results, fields) => {
+        connection.query('SELECT v.id, v.original_video, c.name, c.last_name, c.email FROM videos v JOIN contestants c ON v.contestant_id = c.id WHERE status = 0', (err, results, fields) => {
             if (err) {
                 console.log('Error while getting data');
                 console.log(err);
@@ -105,9 +89,31 @@ cron.schedule(cronTime, () => {
     taskExecution();
 });
 
-// taskExecution();
+taskExecution();
+async function sendMail(email, name, last_name) {
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodeMailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: details.email,
+      pass: details.password
+    }
+  });
+  let mailOptions = {
+    from: 'Smart Tools', // sender address
+    to: email, // list of receivers
+    subject: "Tu video ha sido publicado!", // Subject line
+    html: `<h1>Hola ${name} ${last_name}!  😃 </h1><br>
+    <h1>Te queremos informar que tu video ha sido publicado en la pagina de nustero concurso.</h1><br>
+    <h1>Te deseamos la mejor de las suertes!</h1>
+    `
+  };
+  // send mail with defined transport object
+  let info = await transporter.sendMail(mailOptions);
+};
 
 app.listen(port, () => {
-    console.log(`Cron is running on ${port}`);
+  console.log(`Cron is running on ${port}`);
 });
-

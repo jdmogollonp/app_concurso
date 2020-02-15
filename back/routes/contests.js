@@ -17,8 +17,9 @@ const contestsApi = (app) => {
     const videosService = new VideosService();
 
     // The administrartor Updates a contest
-    router.put('administrartor/edit/:id', verifyToken, async (req, res) => {
+    router.put('/administrartor/contest/edit/:id', verifyToken, async (req, res) => {
         try {
+            console.log('entramos');
             const idadmin = req.decodedToken.sub
             const { id } = req.params;
             const {name, image, url, start_date, end_date, description} = req.body;
@@ -62,6 +63,7 @@ const contestsApi = (app) => {
     // The administrartor Creatres a contest
     router.post('/administrartor/new',verifyToken, async (req,res)=>{
         try {
+            console.log('entramos');
             const idadmin = req.decodedToken.sub
             const {name, image, url, start_date, end_date, description} = req.body ;
             if (!url || !image || !start_date || !end_date || !description) {
@@ -147,7 +149,6 @@ const contestsApi = (app) => {
         }
     });
 
-
     // Gets the info of a contest
     router.get('/:url', async (req, res) => {
         try {
@@ -194,13 +195,15 @@ const contestsApi = (app) => {
         }
     });
 
-    // Gets all the video information with the correspondent contesta information from :url contest
+    // Gets all the video information with the correspondent contestant information from :url contest
     router.get('/:url/videos', async (req, res, next) => {
         try {
             const { url } = req.params;
             const contest = await contestsService.getContestByUrl(url);
             const idcontest = contest.id;
             const events = await videosService.getVideosContestant(idcontest);
+            console.log(events);
+
             res.json({
                 data: events
             });
