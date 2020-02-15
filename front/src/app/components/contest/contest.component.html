@@ -1,8 +1,107 @@
-<div class="row">
+<!-- boton de prueba/-* -->
+<!-- <div class="col-md-6">
+  <button (click)="logOut()" class="btn btn-lg btn-danger border border-white">Cerrar sesión</button>
+</div> -->
+<div class="container">
+
+
+  <div class="jumbotron d-flex mb-5 ">
+    <div class="row d-flex align-items-center">
+      <div class="col-8 pl-5 pt-4">
+        <h1 class="mb-0 font-weight-bold"><em>{{contest.name}}</em></h1>
+      </div>
+      <div class="col-4 text-right pr-5 pt-4">
+        <button id="newvideoButton" routerLink="/signIn" class="btn btn-primary shadow rounded text-white">Nuevo video</button>
+      </div>
+      <div class="col-12 text-center mt-4">
+        <div class="row d-flex align-items-center mt-3">
+          <div class="col-7 row d-flex align-items-center mx-auto mb-5">
+            <h4>
+              {{contest.description}}
+            </h4>
+          </div>
+          <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" alt="Sheep">
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+
+        <br />
+      </div>
+      <div class="col-10 mx-auto text-center mb-3 text-white">
+        <h3>A continuacion encontraras todos los videos que han sido subidos al concuro. Recuerda que la fecha inicio es el {{contest.start_date | date: 'yyyy-MM-dd'}} y termina {{contest.end_date | date: 'yyyy-MM-dd' }}. <br/> <br> Animate a participar!  </h3>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-image table-hover ">
+        <thead class="black thead-light">
+          <tr>
+            <th scope="col" class="text-center">Video</th>
+            <th scope="col" class="text-center">Descripcion</th>
+            <th scope="col" class="text-center">Autor</th>
+            <th *ngIf="admistatorInfo" scope="col" class="text-center">Apellido</th>
+            <th *ngIf="admistatorInfo" scope="col" class="text-center">Email</th>
+            <th scope="col" class="text-center">F.Publicacion</th>
+            <th *ngIf="admistatorInfo" scope="col" class="text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let video of videos" >
+            <!-- por que no funciona con el else? -->
+            <!-- <ng-container *ngIf=" (video.status == 1) &&  !admistatorInfo;  else show"> -->
+            <ng-container *ngIf=" (video.status == 1) &&  !admistatorInfo">
+
+              <td  class="w-25" >
+                <video [src]=video.converted_video  controls width="200px" poster="posterimage.jpg"> </video>
+                <!-- <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" > -->
+              </td>
+              <td class="text-center" class="text-center">{{video.message}}</td>
+              <td class="text-center" class="text-center">{{video.name}}</td>
+              <td class="text-center">{{video.creation_date | date: 'yyyy-MM-dd'}}</td>
+            </ng-container>
+            <ng-container *ngIf="admistatorInfo">
+              <td  class="w-25" >
+                <!-- <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/sheep-5.jpg" class="img-fluid img-thumbnail" > -->
+                <video [src]=video.converted_video  controls width="200px" poster="posterimage.jpg"> </video>
+
+              </td>
+              <td class="text-center" class="text-center">{{video.message}}</td>
+              <td class="text-center" class="text-center">{{video.name}}</td>
+              <td  class="text-center">
+                {{video.last_name}}
+              </td>
+              <td class="text-center">
+                {{video.email}}
+              </td>
+              <td class="text-center">{{video.creation_date | date: 'yyyy-MM-dd'}}</td>
+              <td *ngIf="admistatorInfo" class="text-center">
+                <ng-container *ngIf="video.status === 0">
+                  Sin convertir
+                </ng-container>
+                <ng-container *ngIf="video.status == 1">
+                  Convertido
+                </ng-container>
+              </td>
+
+            </ng-container>
+
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- <div class="row">
   <div class="col-12">
     <h3>Información del concurso</h3>
   </div>
   <div class="col-lg-5 mx-auto mt-4 mb-4">
     <app-upload-video [url]="url"></app-upload-video>
   </div>
-</div>
+</div> -->

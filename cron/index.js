@@ -10,6 +10,7 @@ const cron = require('node-cron');
 const proccesedFolder = process.env.PROCESSED_VIDEOS_PATH;
 const port = process.env.PORT || 3002;
 const cronTime = process.env.CRON_TIME || '*/2 * * * *';
+const details = require("./details.json");
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -46,9 +47,10 @@ const executeTask = ({ id, original_video, email, name, last_name }) => {
                     if (err) {
                         console.log('------------ Error while updating video url ------------');
                         console.log(err);
-                    } else {
+                      } else {
                         console.log(`------------ Video with id ${id} updated ------------`);
-                    }
+                        sendMail(email, name, last_name)
+                      }
                 });
                 connection.release();
             } else {
@@ -90,7 +92,30 @@ cron.schedule(cronTime, () => {
 
 taskExecution();
 
-app.listen(port, () => {
-    console.log(`Cron is running on ${port}`);
-});
+async function sendMail(email, name, last_name) {
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodeMailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: details.email,
+      pass: details.password
+    }
+  });
+  let mailOptions = {
+    from: 'Smart Tools', // sender address
+    to: email, // list of receivers
+    subject: "Tu video ha sido publicado!", // Subject line
+    html: `<h1>Hola ${name} ${last_name}!  😃 </h1><br>
+    <h1>Te queremos informar que tu video ha sido publicado en la pagina de nustero concurso.</h1><br>
+    <h1>Te deseamos la mejor de las suertes!</h1>
+    `
+  };
+  // send mail with defined transport object
+  let info = await transporter.sendMail(mailOptions);
+};
 
+app.listen(port, () => {
+  console.log(`Cron is running on ${port}`);
+});
