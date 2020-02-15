@@ -11,6 +11,7 @@ const proccesedFolder = process.env.PROCESSED_VIDEOS_PATH;
 const port = process.env.PORT || 3002;
 const cronTime = process.env.CRON_TIME || '*/2 * * * *';
 const details = require("./details.json");
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
@@ -48,8 +49,8 @@ const executeTask = ({ id, original_video, email, name, last_name }) => {
                         console.log(err);
                       } else {
                         console.log(`------------ Video with id ${id} updated ------------`);
-                        sendMail(email,name, last_name)
-                    }
+                        sendMail(email, name, last_name)
+                      }
                 });
                 connection.release();
             } else {
@@ -90,6 +91,7 @@ cron.schedule(cronTime, () => {
 });
 
 taskExecution();
+
 async function sendMail(email, name, last_name) {
   // create reusable transporter object using the default SMTP transport
   let transporter = nodeMailer.createTransport({

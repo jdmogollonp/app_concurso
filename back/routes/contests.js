@@ -128,7 +128,12 @@ const contestsApi = (app) => {
                 });
             }
 
-            const contestantId = await contestantsService.createOrUpdateContestant(email, name, lastName);
+            const contestantId = await contestantsService.createContestant(email, name, lastName);
+            if (!contestantId) {
+                return res.status(400).json({
+                    errors: [`Se presentó un problema creando la participación`]
+                });
+            }
             const videoFileName = `${originalVideosPath}/${url}_${new Date().getTime()}${path.extname(videoFile.name)}`
 
             videoFile.mv(`${__dirname}/../../${videoFileName}`).then(async () => {
