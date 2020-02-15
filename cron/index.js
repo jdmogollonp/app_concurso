@@ -10,7 +10,6 @@ const cron = require('node-cron');
 const proccesedFolder = process.env.PROCESSED_VIDEOS_PATH;
 const port = process.env.PORT || 3002;
 const cronTime = process.env.CRON_TIME || '*/2 * * * *';
-const details = require("./details.json");
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -40,7 +39,6 @@ const executeTask = ({ id, original_video, email, name, last_name }) => {
         const newFileName = `${proccesedFolder}/${contestUrl}_${id}.mp4`;
         const command = `ffmpeg -i ${path.join('..', original_video)} -c:v h264 -c:a aac -strict -2 ${path.join('..', newFileName)}`;
         exec(command, async (error, stdout, stderr) => {
-            console.log(`------------ Command executed for video with id ${id} ------------`);
             if (fs.existsSync(path.join('..', newFileName))) {
                 const connection = await connect();
                 connection.query('UPDATE videos SET converted_video = ?, status = 1 WHERE id = ?', [newFileName, id], (err, results, fields) => {
@@ -67,7 +65,7 @@ const taskExecution = async () => {
     console.log('------------  Running Cron Job on ' + new Date() + '  ------------');
     try {
         const connection = await connect();
-        connection.query('SELECT v.id, v.original_video, c.name, c.last_name, c.email FROM videos v JOIN contestants c ON v.contestant_id = c.id WHERE status = 0', (err, results, fields) => {
+        connection.query('SELECT * FROM videos WHERE status = 0', (err, results, fields) => {
             if (err) {
                 console.log('Error while getting data');
                 console.log(err);
