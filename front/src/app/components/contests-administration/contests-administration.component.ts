@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConstestAdministrationService } from 'src/app/services/contest-administration/constest-administration.service';
 
 @Component({
   selector: 'app-contests-administration',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContestsAdministrationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private contestAdministrationService: ConstestAdministrationService ) { }
 
   ngOnInit() {
+    this.contestAdministrationService.getContests().then(data => {
+      console.log(data)
+    } ).catch(err => {
+      window.alert(err);
+    });
   }
 
 }
