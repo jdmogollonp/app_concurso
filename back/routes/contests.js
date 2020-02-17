@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { originalVideosPath } = require('../config');
-const {verifyToken} = require('../libraries/jwt')
+const { verifyToken } = require('../libraries/jwt')
 const ContestsService = require('../services/contests');
 const ContestantsService = require('../services/contestants');
 const VideosService = require('../services/videos');
@@ -23,21 +23,21 @@ const contestsApi = (app) => {
             console.log('entramos');
             const idadmin = req.decodedToken.sub
             const { id } = req.params;
-            const {name, image, url, start_date, end_date, description} = req.body;
+            const { name, image, url, start_date, end_date, description } = req.body;
             if (!url || !image || !start_date || !end_date || !description) {
                 res.status(400).json({
                     errors: [`Todos los datos son requeridos`]
                 });
-            // } else if (endDate <= startDate) {
-            //     res.status(400).json({
-            //         errors: [`La fecha fin debe ser mayor que la fecha inicio`]
-            //     });
+                // } else if (endDate <= startDate) {
+                //     res.status(400).json({
+                //         errors: [`La fecha fin debe ser mayor que la fecha inicio`]
+                //     });
             } else {
                 try {
                     console.log('Prueba put');
                     // const newStartDate = new Date(Number(startDate)).toJSON().slice(0, 19).replace('T', ' ');
                     // const newEndDate = new Date(Number(endDate)).toJSON().slice(0, 19).replace('T', ' ');
-                    const contestsId = await contestsService.updateContests(idadmin, id, {name, image, url, start_date, end_date, description});
+                    const contestsId = await contestsService.updateContests(idadmin, id, { name, image, url, start_date, end_date, description });
                     if (contestsId) {
                         res.status(201).json({
                             data: 'El concurso fue actualizado exitosamente '
@@ -62,11 +62,11 @@ const contestsApi = (app) => {
     });
 
     // The administrartor Creatres a contest
-    router.post('/administrartor/new',verifyToken, async (req,res)=>{
+    router.post('/administrartor/new', verifyToken, async (req, res) => {
         try {
             console.log('entramos');
             const idadmin = req.decodedToken.sub
-            const {name, image, url, start_date, end_date, description} = req.body ;
+            const { name, image, url, start_date, end_date, description } = req.body;
             if (!url || !image || !start_date || !end_date || !description) {
                 res.status(400).json({
                     errors: [`Todos los datos son requeridos`]
@@ -76,7 +76,7 @@ const contestsApi = (app) => {
                 // Por que gabriel les hace una conversion antes de enviarlos al database?
                 // hasta el momento, para pruebas desde postman, enviar start_date y end_date con
                 // el formato 2008-01-01 00:00:01
-                const contestId = await contestsService.createContest(idadmin, {name, image, url, start_date, end_date, description});
+                const contestId = await contestsService.createContest(idadmin, { name, image, url, start_date, end_date, description });
                 if (contestId) {
                     res.status(201).json({
                         data: 'Concurso creado exitosamente'
@@ -128,17 +128,11 @@ const contestsApi = (app) => {
                 });
             }
 
-            const contestantId = await contestantsService.createContestant(email, name, lastName);
-            if (!contestantId) {
-                return res.status(400).json({
-                    errors: [`Se presentó un problema creando la participación`]
-                });
-            }
             const videoFileName = `${originalVideosPath}/${url}_${new Date().getTime()}${path.extname(videoFile.name)}`
 
             videoFile.mv(`${__dirname}/../../${videoFileName}`).then(async () => {
 
-                await videosService.createVideo(contest.id, contestantId, videoFileName, message);
+                await videosService.createVideo(contest.id, videoFileName, message, email, name, lastName);
                 res.status(201).json({
                     data: `Hemos recibido tu video y lo estamos procesado para que sea publicado. Tan pronto el video quede publicado en la página del concurso te notificaremos por email.`
                 });
@@ -184,7 +178,7 @@ const contestsApi = (app) => {
             const { id, url } = req.params;
             const contest = await contestsService.getContestByUrl(url);
             const idcontest = contest.id;
-            const event = await videosService.getVideoInfo( id, idcontest);
+            const event = await videosService.getVideoInfo(id, idcontest);
             if (event) {
                 res.json({
                     data: event
@@ -221,7 +215,7 @@ const contestsApi = (app) => {
     });
 
     // Get all contests
-    router.get('/administrartor/all',verifyToken, async (req, res) => {
+    router.get('/administrartor/all', verifyToken, async (req, res) => {
 
         try {
             const contests = await contestsService.getContests()
@@ -234,7 +228,7 @@ const contestsApi = (app) => {
 
     });
 
-    router.delete('/administrator/delete/:idcontest', verifyToken,  async (req, res) => {
+    router.delete('/administrator/delete/:idcontest', verifyToken, async (req, res) => {
         const idadmin = req.decodedToken.sub;
         const { idcontest } = req.params;
         try {
@@ -255,7 +249,7 @@ const contestsApi = (app) => {
             const { url } = req.params;
             const { id } = req.body
             const idcontestant = await contestService.getIdContestByUrl(url)
-            const contestant = await contestantsService.getcontestant(url,id);
+            const contestant = await contestantsService.getcontestant(url, id);
             if (contestant) {
                 res.json({
                     data: contestant
@@ -272,21 +266,21 @@ const contestsApi = (app) => {
         }
     });
 
-    router.post('/administrator/upload-image/:idcontest',verifyToken ,  async (req, res) => {
+    router.post('/administrator/upload-image/:idcontest', verifyToken, async (req, res) => {
         const idadmin = req.decodedToken.sub;
         const { idcontest } = req.params;
         const ImageFiles = req.files.image
         const ImageFileName = `${new Date().getTime()}${path.extname(ImageFiles.name)}`
         ImageFiles.mv(`${__dirname}/../uploads/images/${ImageFileName}`).then(async () => {
-        //console.log(req.files)
+            //console.log(req.files)
             try {
-                const contests = await contestsService.uploadImage(idadmin, idcontest,ImageFileName)
+                const contests = await contestsService.uploadImage(idadmin, idcontest, ImageFileName)
                 res.status(200).json(contests)
             } catch (error) {
                 res.status(404).json({
                     errors: ['Error borrando los concursos', error]
                 });
-             }
+            }
         })
     });
 
