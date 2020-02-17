@@ -14,7 +14,7 @@ const contestsApi = (app) => {
 
 
     const contestsService = new ContestsService();
-    const contestantsService = new ContestantsService();
+    const contestantsService = new ContestantsService
     const videosService = new VideosService();
 
     // The administrartor Updates a contest
@@ -152,7 +152,6 @@ const contestsApi = (app) => {
     // Gets the info of a contest
     router.get('/:url', async (req, res) => {
         try {
-            console.log('Esta pidiendo info de concuros');
             const { url } = req.params;
             const contest = await contestsService.getContestByUrl(url);
             if (contest) {
