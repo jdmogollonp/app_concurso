@@ -1,3 +1,4 @@
+// This file could be deleted
 const mysql = require('../libraries/mysql');
 
 class ContestantsService {

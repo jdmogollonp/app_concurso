@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const createFolder = require('./libraries/createFolder');
+
 const { port, host, allowedOrigin, processedVideosPath, originalVideosPath, production } = require('./config/index');
 const path = require('path');
 
@@ -12,6 +13,7 @@ createFolder(originalVideos);
 app.use(originalVideosPath, express.static(originalVideos));
 
 const processedVideos = path.join(__dirname, '..', processedVideosPath);
+
 createFolder(processedVideos);
 app.use(processedVideosPath, express.static(processedVideos));
 

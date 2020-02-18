@@ -39,7 +39,6 @@ const executeTask = ({ id, original_video, email, name, last_name }) => {
         const newFileName = `${proccesedFolder}/${contestUrl}_${id}.mp4`;
         const command = `ffmpeg -i ${path.join('..', original_video)} -c:v h264 -c:a aac -strict -2 ${path.join('..', newFileName)}`;
         exec(command, async (error, stdout, stderr) => {
-            console.log(`------------ Command executed for video with id ${id} ------------`);
             if (fs.existsSync(path.join('..', newFileName))) {
                 const connection = await connect();
                 connection.query('UPDATE videos SET converted_video = ?, status = 1 WHERE id = ?', [newFileName, id], (err, results, fields) => {
@@ -47,7 +46,8 @@ const executeTask = ({ id, original_video, email, name, last_name }) => {
                         console.log('------------ Error while updating video url ------------');
                         console.log(err);
                     } else {
-                        console.log(`------------ Video with id ${id} updated ------------`);
+                        console.log(`------------ Video with id ${id} updated. Sending email ------------`);
+                        sendMail(email, name, last_name, contestUrl)
                     }
                 });
                 connection.release();
@@ -65,7 +65,7 @@ const taskExecution = async () => {
     console.log('------------  Running Cron Job on ' + new Date() + '  ------------');
     try {
         const connection = await connect();
-        connection.query('SELECT v.id, v.original_video, c.name, c.last_name, c.email FROM videos v JOIN contestants c ON v.contestant_id = c.id WHERE status = 0', (err, results, fields) => {
+        connection.query('SELECT * FROM videos WHERE status = 0', (err, results, fields) => {
             if (err) {
                 console.log('Error while getting data');
                 console.log(err);
@@ -90,7 +90,31 @@ cron.schedule(cronTime, () => {
 
 taskExecution();
 
+const sendMail = (email, name, last_name, contestUrl) => {
+    // create reusable transporter object using the default SMTP transport
+    const transporter = nodeMailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+        }
+    });
+    const mailOptions = {
+        from: 'Smart Tools', // sender address
+        to: email, // list of receivers
+        subject: "SmartTools - !Tu video ha sido publicado!", // Subject line
+        html:
+            `<h3>¡Hola ${name} ${last_name}! 😃</h3>
+    <p>Te queremos informar que tu video ha sido publicado en la página de nuestro concurso.</p>
+    <p>Puedes ingresar al muro del concurso por medio de este <a href="${process.env.CONTEST_URL}${contestUrl}">enlace</a></p>
+    `
+    };
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions);
+};
+
 app.listen(port, () => {
     console.log(`Cron is running on ${port}`);
 });
-
