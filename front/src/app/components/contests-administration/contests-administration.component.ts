@@ -17,5 +17,4 @@ export class ContestsAdministrationComponent implements OnInit {
       window.alert(err);
     });
   }
-
 }

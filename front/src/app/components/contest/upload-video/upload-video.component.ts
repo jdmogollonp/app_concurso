@@ -21,6 +21,8 @@ export class UploadVideoComponent implements OnInit {
 
   public uploadedVideo: File;
 
+
+
   constructor(private contestService: ContestService) { }
 
   ngOnInit() {
@@ -34,14 +36,8 @@ export class UploadVideoComponent implements OnInit {
     event.preventDefault();
     this.loading = true;
     this.contestService.uploadVideo(this.url, this.uploadedVideo, this.videoUpload).then((data: string) => {
-      window.scrollTo(0, 0);
-      // this.uploadedVideo = null;
-      // this.videoUpload = {
-      //   email: '',
-      //   name: '',
-      //   lastName: '',
-      //   message: ''
-      // };
+      // window.scrollTo(0, 0);
+      window.location.reload();
       this.loading = false;
       window.alert(data);
     }).catch(err => {

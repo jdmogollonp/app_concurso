@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContestService } from 'src/app/services/contest/contest.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -11,13 +12,19 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
   styleUrls: ['./contest.component.scss']
 })
 export class ContestComponent implements OnInit {
-
+  require: any;
   public url = '';
   videos: any = [];
   contest: any = [];
-
   admistatorInfo: any;
-  constructor(private activatedRoute: ActivatedRoute, private contestService: ContestService, private router: Router, private authenticationService: AuthenticationService) {
+  closeResult: string;
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private contestService: ContestService,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private modalService: NgbModal
+  ) {
     this.url = this.activatedRoute.snapshot.params.url;
     this.admistatorInfo =  this.authenticationService.getTokenInformation();
 
@@ -26,37 +33,44 @@ export class ContestComponent implements OnInit {
 
   ngOnInit() {
     this.loadContest();
-    // this.loadVideos();
-    // this.administrator();
+    console.log(this.videos);
   }
 
 
   loadContest(){
     this.contestService.getContest(this.url).then(data => {
       this.contest = data;
-      this.loadVideos()
+      // this.loadVideos()
     }).catch(err => {
       window.alert(err);
     });
   }
 
-  loadVideos(){
-    this.contestService.getVideos(this.url).then(data => {
-      this.videos = data;
-    }).catch(err => {
-      window.alert(err);
+  // loadVideos(){
+  //   this.contestService.getVideos(this.url).then(data => {
+  //     this.videos = data;
+  //   }).catch(err => {
+  //     window.alert(err);
+  //   });
+  // }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  //
-  // administrator(){
-  //   // this.authenticationService.getTokenInformation().then((data:any) => {
-  //   //   console.log(data)
-  //   //   this.admistatorInfo = data;
-  //   //   console.log(this.admistatorInfo)
-  //   // }).catch(err => {
-  //   //   window.alert(err);
-  //   // });
-  // }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
 
   logOut() {
     this.authenticationService.logOut();

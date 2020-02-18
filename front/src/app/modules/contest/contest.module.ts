@@ -1,5 +1,6 @@
 // --------- Components --------- //
 import { UploadVideoComponent } from '../../components/contest/upload-video/upload-video.component';
+import { ShowVideosComponent } from '../../components/contest/show-videos/show-videos.component';
 
 // --------- Modules --------- //
 import { NgModule } from '@angular/core';
@@ -9,7 +10,7 @@ import { ContestRoutingModule } from './contest.routing.module';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [ContestComponent, UploadVideoComponent],
+  declarations: [ContestComponent, UploadVideoComponent, ShowVideosComponent],
   imports: [
     CommonModule,
     ContestRoutingModule,

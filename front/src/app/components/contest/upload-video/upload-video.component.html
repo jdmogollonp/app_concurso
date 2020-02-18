@@ -61,8 +61,8 @@
     </div>
 
     <div class="text-center mt-4">
-      <button [attr.disabled]="!uploadedVideo ? true : null" *ngIf="!loading" class="btn btn-info border border-white"
-        type="submit"><i class="fas fa-check"></i>&nbsp;Participar</button>
+      <button  [attr.disabled]="!uploadedVideo ? true : null" *ngIf="!loading" class="btn btn-info border border-white"
+        type="submit"  ><i class="fas fa-check"></i>&nbsp;Participar</button>
       <i *ngIf="loading" class="fas fa-spin fa-spinner text-info fa-2x"></i>
     </div>
   </form>

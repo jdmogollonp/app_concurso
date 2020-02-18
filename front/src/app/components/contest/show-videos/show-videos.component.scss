@@ -1,0 +1,37 @@
+.modal-content {
+  background-color: #2a5a80;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #2a5a80;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.table .thead-light th {
+  color: #ffffff;
+  background-color: #f1b149;
+  border-color: #2a5a80;
+}
+#newvideoButton {
+  border-radius: 5rem !important;
+}
+.img-thumbnail{
+  border-radius: 2rem !important;
+  border-color: #f1b149;
+  background-color: #2a5a80;
+}
+.jumbotron {
+  background: #f1b149;
+}
+.container {
+  padding: 2rem 0rem;
+}
+
+h4 {
+  margin: 2rem 0rem 1rem;
+}
+
+.table-image {
+  td, th {
+    vertical-align: middle;
+  }
+}
