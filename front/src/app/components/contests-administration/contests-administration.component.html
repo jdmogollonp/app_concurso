@@ -19,7 +19,10 @@
         <h3 class="float-left" >Concursos</h3>
         <button type="button" (click)="open(content)" class="btn btn-warning float-right">Crear Concurso</button>
     </div>
-    <div class="row">
+    <div class="alert alert-primary" role="alert" *ngIf="contests.length ==0">
+      No tines concursos todavía
+    </div>
+    <div class="row" *ngIf="contests.length >0">
         <div class="col-4" *ngFor="let contest of contests">
             <div class="card">
                 <img src="/assets/imagenes/default.png" class="card-img-top" alt="...">

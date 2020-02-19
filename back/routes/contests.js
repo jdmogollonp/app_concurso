@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const { originalVideosPath, bannerContestsPath } = require('../config');
 const { verifyToken } = require('../libraries/jwt')
 const ContestsService = require('../services/contests');
@@ -341,6 +342,22 @@ const contestsApi = (app) => {
         });
       }
     })
+  });
+
+  router.get('/administrator/get-image/:imagenFileName', async (req, res) => {
+    const imagenFile = req.params.imagenFileName
+    const imagenPath = `../uploads/images/${imagenFile}`
+    fs.exists(imagenPath,(exists)=>{
+      if(exists){
+        res.status(200).json({
+          data: path.resolve(imagenPath)
+        }) 
+      }else {
+        res.status(404).json({
+          errors: ['No existe la imagen']
+        });
+      }
+    } )
   });
 
 
