@@ -55,7 +55,7 @@ class VideosService {
         return new Promise(async (resolve, reject) => {
             try {
                 const connection = await mysql.connect();
-                const query = 'SELECT * FROM videos WHERE contest_id = ? and status = 1 ORDER BY creation_date ASC '
+                const query = 'SELECT * FROM videos WHERE contest_id = ? and status = 1 ORDER BY creation_date DESC'
                 // const query = `SELECT id, status, creation_date, message, original_video, converted_video, contestant_id FROM ${this.table} WHERE contest_id = ? ORDER BY creation_date DESC`;
                 connection.query(query, [idcontest], (err, results, fields) => {
                     if (err) {

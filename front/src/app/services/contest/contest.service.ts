@@ -12,21 +12,21 @@ export class ContestService {
   private apiUrl = `${environment.apiUrl}contests/`;
 
   constructor(private http: HttpHelperService) { }
-  getContest(url:string){
-    return new Promise( (resolve,reject) => {
-      this.http.getRequest(`${this.apiUrl}${url}`,'',resolve,reject);
+  getContest(url: string) {
+    return new Promise((resolve, reject) => {
+      this.http.getRequest(`${this.apiUrl}${url}`, '', resolve, reject);
     });
   }
-  // getVideos(url:string) {
-  //   return new Promise((resolve, reject) => {
-  //     this.http.getRequest(`${this.apiUrl}${url}/videos`, '', resolve, reject);
-  //   });
-  // }
-  // getVideo(url:string, id) {
-  //   return new Promise((resolve, reject) => {
-  //     this.http.getRequest(`${this.apiUrl}${url}/videos${id}`, '', resolve, reject);
-  //   });
-  // }
+  getVideos(url: string) {
+    return new Promise((resolve, reject) => {
+      this.http.getRequest(`${this.apiUrl}${url}/videos`, '', resolve, reject);
+    });
+  }
+  getVideo(url: string, id) {
+    return new Promise((resolve, reject) => {
+      this.http.getRequest(`${this.apiUrl}${url}/videos${id}`, '', resolve, reject);
+    });
+  }
 
   uploadVideo(url: string, videoFile: File, { name, lastName, message, email }) {
     return new Promise((resolve, reject) => {

@@ -207,7 +207,7 @@ const contestsApi = (app) => {
             // get page from query params or default to first page
             const page = parseInt(req.query.page) || 1;
             // get pager object for specified page
-            const pageSize = 2;
+            const pageSize = 50;
             const pager = paginate(events.length, page, pageSize);
             // get page of videos from videos array
             const pageOfVIdeos = events.slice(pager.startIndex, pager.endIndex + 1);
@@ -235,7 +235,7 @@ const contestsApi = (app) => {
             // get page from query params or default to first page
             const page = parseInt(req.query.page) || 1;
             // get pager object for specified page
-            const pageSize = 2;
+            const pageSize = 50;
             const pager = paginate(events.length, page, pageSize);
             // get page of videos from videos array
             const pageOfVIdeos = events.slice(pager.startIndex, pager.endIndex + 1);

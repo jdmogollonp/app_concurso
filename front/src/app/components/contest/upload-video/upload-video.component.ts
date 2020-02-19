@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ContestService } from 'src/app/services/contest/contest.service';
 
 @Component({
@@ -10,6 +10,8 @@ export class UploadVideoComponent implements OnInit {
 
   @Input() url: string;
 
+  @Output() closeModal = new EventEmitter<boolean>();
+
   public loading = false;
 
   public videoUpload = {
@@ -20,8 +22,6 @@ export class UploadVideoComponent implements OnInit {
   };
 
   public uploadedVideo: File;
-
-
 
   constructor(private contestService: ContestService) { }
 
@@ -36,10 +36,11 @@ export class UploadVideoComponent implements OnInit {
     event.preventDefault();
     this.loading = true;
     this.contestService.uploadVideo(this.url, this.uploadedVideo, this.videoUpload).then((data: string) => {
-      // window.scrollTo(0, 0);
-      window.location.reload();
       this.loading = false;
       window.alert(data);
+      this.videoUpload.message = '';
+      this.uploadedVideo = null;
+      this.closeModal.emit(true);
     }).catch(err => {
       this.loading = false;
       window.alert(err);

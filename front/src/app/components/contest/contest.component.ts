@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContestService } from 'src/app/services/contest/contest.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -13,11 +13,13 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ContestComponent implements OnInit {
   require: any;
-  public url = '';
+  url = '';
   videos: any = [];
   contest: any = [];
   admistatorInfo: any;
   closeResult: string;
+  loading = true;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private contestService: ContestService,
@@ -26,40 +28,34 @@ export class ContestComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.url = this.activatedRoute.snapshot.params.url;
-    this.admistatorInfo =  this.authenticationService.getTokenInformation();
-
+    this.admistatorInfo = this.authenticationService.getTokenInformation();
   }
 
 
   ngOnInit() {
     this.loadContest();
-    console.log(this.videos);
   }
 
-
-  loadContest(){
+  loadContest() {
     this.contestService.getContest(this.url).then(data => {
       this.contest = data;
-      // this.loadVideos()
+      this.loading = false;
     }).catch(err => {
       window.alert(err);
+      this.router.navigate(['']);
     });
   }
 
-  // loadVideos(){
-  //   this.contestService.getVideos(this.url).then(data => {
-  //     this.videos = data;
-  //   }).catch(err => {
-  //     window.alert(err);
-  //   });
-  // }
-
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
   }
 
   private getDismissReason(reason: any): string {
@@ -68,7 +64,7 @@ export class ContestComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
