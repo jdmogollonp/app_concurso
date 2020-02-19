@@ -1,0 +1,67 @@
+<div class="card p-3 border-secondary bg-secondary shadow">
+  <h4 class="mb-0 text-white text-center">Crea un nuevo concurso</h4>
+  <hr class="bg-white w-75 mx-auto mb-0" />
+  <form ngNoForm (submit)="submitForm($event)">
+    <h6 class="text-white mt-4">1) Sube el  banner o imagen del concurso</h6>
+    <div class="mt-4 text-center mb-0">
+      <ng-container *ngIf="!uploadedImage">
+        <input type="file" name="file" id="file" class="inputfile" accept="video/*" (change)="getFileDetails($event)" />
+        <label for="file" class="btn btn-outline-secondary text-white p-3 font-weight-bold shadow-sm">🎥&nbsp;Banner/Imagen</label>
+      </ng-container>
+      <ng-container *ngIf="uploadedImage">
+        <p class="text-white font-weight-bold">
+          {{uploadedImage.name}}
+        </p>
+        <button *ngIf="!loading" type="button" (click)="uploadedImage = null"
+          class="btn btn-sm btn-outline-danger border border-white text-white p-2 font-weight-bold">
+          <i class="fas fa-trash"></i>&nbsp;&nbsp;Remover
+        </button>
+      </ng-container>
+    </div>
+
+    <h6 class="text-white mt-2">2) Ingresa los datos del concurso</h6>
+
+    <div class="mt-3">
+      <label class="font-weight-bold text-white" for="url">
+        URL
+      </label>
+      <input [attr.disabled]="loading ? true : null" id="url" class="form-control border-white shadow-sm" type="text"
+        maxlength="320" required [(ngModel)]="contestUpload.url">
+    </div>
+
+    <div class="mt-3">
+      <label class="font-weight-bold text-white" for="start_date">
+        Fecha  de  inicio  del  concurso
+      </label>
+      <input [attr.disabled]="loading ? true : null" id="start_date" class="form-control border-white shadow-sm" type="text"
+        maxlength="45"  [(ngModel)]="contestUpload.start_date">
+    </div>
+
+    <div class="mt-3">
+      <label class="font-weight-bold text-white" for="end_date">
+        Fecha  de  fin  del concurso
+      </label>
+      <input [attr.disabled]="loading ? true : null" id="end_date" class="form-control border-white shadow-sm"
+        type="text" maxlength="45" required [(ngModel)]="contestUpload.end_date">
+    </div>
+
+    <div class="mt-3">
+      <label class="font-weight-bold text-white" for="description">
+         Descripción  del  premio  que  ganará el  mejor  video
+      </label>
+      <textarea [attr.disabled]="loading ? true : null" id="description" class="form-control border-white shadow-sm"
+        cols="30" rows="3" minlength="10" [(ngModel)]="contestUpload.description" required></textarea>
+    </div>
+
+    <div class="mt-3">
+      <p class="text-white small">*Recuerda que la URL es unica y es la forma por la cual los usuarios finales acceden al concurso</p>
+    </div>
+
+    <div class="text-center mt-4">
+      <button  [attr.disabled]="!uploadedImage ? true : null" *ngIf="!loading" class="btn btn-info border border-white"
+        type="submit"  ><i class="fas fa-check"></i>&nbsp;Crear</button>
+      <i *ngIf="loading" class="fas fa-spin fa-spinner text-info fa-2x"></i>
+    </div>
+
+  </form>
+</div>

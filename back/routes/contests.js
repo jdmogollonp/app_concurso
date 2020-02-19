@@ -227,8 +227,6 @@ const contestsApi = (app) => {
     // Gets all the videos information with the correspondent contestant information from :url contest
     router.get('/:url/videos/users', async (req, res, next) => {
         try {
-            console.log('HOLA MANO QUe ES LA QUE HAY? x3')
-
             const { url } = req.params;
             const contest = await contestsService.getContestByUrl(url);
             const idcontest = contest.id;
@@ -349,8 +347,6 @@ const contestsApi = (app) => {
             }
         })
     });
-
-
 
 
 

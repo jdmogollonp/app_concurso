@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+
 // --------- Guards --------- //
 import { AuthenticatedGuard } from './guards/authenticated/authenticated.guard';
 import { NotAuthenticatedGuard } from './guards/not-authenticated/not-authenticated.guard';
