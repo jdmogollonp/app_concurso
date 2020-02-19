@@ -4,68 +4,70 @@
       <div class="navbar-header">
         <a class="navbar-brand">Smart Tools</a>
       </div>
-      <ul class="navbar-nav mr-auto">
+      <ul *ngIf="admistatorInfo" class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" href="/administrator/contests">Concursos</a>
         </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <button (click)="logOut()" type="button" class="btn btn-outline-info">Cerrar sesión</button>
-        <button class="btn btn-outline-danger" >Elimianar concuro</button>
+        <button *ngIf="!loading && contest" class="btn btn-outline-danger mr-2"><i
+            class="fas fa-trash"></i>&nbsp;Eliminar
+          concuro</button>
+        <button *ngIf="admistatorInfo" (click)="logOut()" type="button" class="btn btn-outline-dark"><i
+            class="fas fa-sign-out-alt"></i>&nbsp;Cerrar
+          sesión</button>
       </ul>
     </nav>
   </ng-container>
 
+  <h1 *ngIf="loading" class="mt-5 text-center text-secondary"><i class="fas fa-spin fa-spinner"></i></h1>
 
-  <div class="jumbotron d-flex mb-5 ">
-    <div class="row d-flex align-items-center">
-      <div class="col-8 pl-5 pt-4">
-        <h1 class="mb-0 font-weight-bold"><em>{{contest.name}}</em></h1>
-      </div>
+  <ng-container *ngIf="!loading && contest">
+    <div class="jumbotron d-flex mb-5 shadow-lg">
+      <div class="row d-flex align-items-center">
+        <div class="col-8 pl-5 pt-4">
+          <h1 class="mb-0 font-weight-bold text-white"><em>{{contest.name}}</em></h1>
+        </div>
 
-      <div class="col-12 text-center mt-4">
-        <div class="row d-flex align-items-center mt-3">
-          <div class="col-7 row d-flex align-items-center mx-auto mb-5">
-            <h2>
-              Descripcion:  {{contest.description}}
-            </h2>
-          </div>
-          <div class="col-4 row d-flex align-items-center mx-auto mb-5">
-            <img src="../../../../assets/Video-Contest.jpg" class="img-fluid img-thumbnail" >
+        <div class="col-12 text-center mt-4">
+          <div class="row d-flex align-items-center mt-3">
+            <div class="col-7 row d-flex align-items-center mx-auto mb-5">
+              <h2 class="text-left text-white">
+                {{contest.description}}
+              </h2>
+            </div>
+            <div class="col-4 row d-flex align-items-center mx-auto mb-5">
+              <img [src]="contest.image" class="img-fluid img-thumbnail shadow">
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-12 text-center mt-4">
-        <div class="row d-flex align-items-center mt-3">
-          <div class="col-7 row d-flex align-items-center text-white mx-auto mb-5">
-            <h3>A continuacion encontraras todos los videos que han sido subidos al concuro. Recuerda que la fecha inicio es el {{contest.start_date | date: 'yyyy-MM-dd'}} y termina {{contest.end_date | date: 'yyyy-MM-dd' }}. <br/> <br> Animate a participar!  </h3>
+        <div class="col-12">
+          <hr class="w-75 bg-white mt-1">
+        </div>
 
-          </div>
-          <div class="col-4 row d-flex align-items-center mx-auto mb-5">
-            <button id="newvideoButton" (click)="open(content)" class="btn btn-primary shadow rounded text-white">Nuevo video</button>
-          </div>
-
+        <div class="col-10 mx-auto text-center mt-4 text-white">
+          <h3>Recuerda que el concurso empieza el <strong>{{contest.start_date | date: 'dd/MM/yyyy'}}</strong> y termina
+            el <strong>{{contest.end_date | date: 'dd/MM/yyyy' }}</strong>.</h3>
+          <h3 class="mt-2">¡Animate a participar!</h3>
+          <button id="newvideoButton" (click)="open(content)"
+            class="btn btn-primary btn-lg shadow rounded text-white mt-3">Subir video</button>
+          <h4>
+            A continuación puedes encontrar todos los videos que han sido subidos al concurso
+          </h4>
+          <h2 class="mb-0">
+            <i class="fas fa-arrow-down"></i>
+          </h2>
         </div>
       </div>
     </div>
-  </div>
-<hr>
+    <hr id="videoSeparator" class="bg-info">
+  </ng-container>
 </div>
-<app-show-videos [adminInfo] = "admistatorInfo" [url]="url" ></app-show-videos>
+<app-show-videos *ngIf="!loading && contest" [adminInfo]="admistatorInfo" [url]="url"></app-show-videos>
 <ng-template #content let-modal>
-  <div class="modal-body">
-    <app-upload-video [url]="url"></app-upload-video>
+  <div class="modal-body p-0">
+    <app-upload-video (closeModal)="closeModal()" [url]="url"></app-upload-video>
   </div>
 </ng-template>
-<!--<pre>{{closeResult}}</pre> -->
-
-<!-- <div class="row">
-<div class="col-12">
-<h3>Información del concurso</h3>
-</div>
-<div class="col-lg-5 mx-auto mt-4 mb-4">
-<app-upload-video [url]="url"></app-upload-video>
-</div>
-</div> -->

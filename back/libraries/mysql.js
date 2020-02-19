@@ -5,7 +5,7 @@ const pool = mysql.createPool({
     database,
     user,
     password,
-    timezone: 'UTC+0'
+    timezone: 'GMT-5'
 });
 
 function connect() {

@@ -1,4 +1,4 @@
-<div class="card p-3 border-secondary bg-secondary shadow">
+<div class="card p-3 border-white bg-secondary shadow">
   <h4 class="mb-0 text-white text-center">Participa en el concurso</h4>
   <hr class="bg-white w-75 mx-auto mb-0" />
   <form ngNoForm (submit)="submitForm($event)">
@@ -55,14 +55,9 @@
         cols="30" rows="3" minlength="10" [(ngModel)]="videoUpload.message" required></textarea>
     </div>
 
-    <div class="mt-3">
-      <p class="text-white small">*Puedes participar varias veces con el mismo email, pero se guardará tu último nombre
-        y apellido</p>
-    </div>
-
     <div class="text-center mt-4">
-      <button  [attr.disabled]="!uploadedVideo ? true : null" *ngIf="!loading" class="btn btn-info border border-white"
-        type="submit"  ><i class="fas fa-check"></i>&nbsp;Participar</button>
+      <button [attr.disabled]="!uploadedVideo ? true : null" *ngIf="!loading" class="btn btn-info border border-white"
+        type="submit"><i class="fas fa-check"></i>&nbsp;Enviar video</button>
       <i *ngIf="loading" class="fas fa-spin fa-spinner text-info fa-2x"></i>
     </div>
   </form>

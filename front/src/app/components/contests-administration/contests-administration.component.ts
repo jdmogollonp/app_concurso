@@ -12,8 +12,9 @@ export class ContestsAdministrationComponent implements OnInit {
   constructor(private contestAdministrationService: ConstestAdministrationService, private modalService: NgbModal ) { }
 
   ngOnInit() {
-    this.contestAdministrationService.getContests().then(data => {
+    this.contestAdministrationService.getContests().then((data:Array<any>) => {
       console.log(data)
+      this.contests = data
     } ).catch(err => {
       window.alert(err);
     });

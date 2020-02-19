@@ -12,8 +12,14 @@ export class ShowVideosComponent implements OnInit {
   private apiUrl = `${environment.apiUrl}contests/`;
   @Input() adminInfo: any;
   @Input() url: string;
-  pager = {};
+  pager = {
+    pages: [],
+    currentPage: -1,
+    totalPages: 0
+  };
   videos = [];
+
+  loading = true;
 
   constructor(
     private http: HttpClient,
@@ -21,21 +27,17 @@ export class ShowVideosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.adminInfo){
-      // load page based on 'page' query param or default to 1
+    if (this.adminInfo) {
       this.activatedRoute.queryParams.subscribe(x => this.loadPageAdmin(x.page || 1));
-    }
-    else{
-      console.log('HOLA MANO QUe ES LA QUE HAY?')
+    } else {
       this.activatedRoute.queryParams.subscribe(x => this.loadPageUsers(x.page || 1));
     }
   }
 
   private loadPageUsers(page) {
-    // get page of videos from api
-
+    this.loading = true;
     this.http.get<any>(`${this.apiUrl}${this.url}/videos/users?page=${page}`).subscribe(x => {
-      console.log('HOLA MANO QUe ES LA QUE HAY? x2')
+      this.loading = false;
       this.pager = x.pager;
       this.videos = x.data;
     });
@@ -43,19 +45,18 @@ export class ShowVideosComponent implements OnInit {
 
 
   private loadPageAdmin(page) {
-    // get page of videos from api
+    this.loading = true;
     this.http.get<any>(`${this.apiUrl}${this.url}/videos?page=${page}`).subscribe(x => {
+      this.loading = false;
       this.pager = x.pager;
       this.videos = x.data;
     });
   }
 
-  downloadFile(){
+  downloadFile() {
     let link = document.createElement("a");
     link.download = "Video Of Bokeh Lights.mp4";
     link.href = "assets/";
     link.click();
   }
-
-
 }
