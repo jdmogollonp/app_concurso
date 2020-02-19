@@ -274,10 +274,19 @@ const contestsApi = (app) => {
             //console.log(req.files)
             try {
                 const contests = await contestsService.uploadImage(idadmin, idcontest, ImageFileName)
-                res.status(200).json(contests)
+
+                if (contests) {
+                    res.status(200).json({
+                        data: contests
+                    });
+                } else {
+                    res.status(404).json({
+                        errors: [`No existe un concurso con ese id`]
+                    });
+                }
             } catch (error) {
                 res.status(404).json({
-                    errors: ['Error borrando los concursos', error]
+                    errors: ['Error subiendo la imagen al concurso', error]
                 });
             }
         })

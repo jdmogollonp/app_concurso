@@ -15,7 +15,7 @@ export class ConstestAdministrationService {
   getContests(){
     return new Promise((resolve, reject) => {            
       this.http.getRequest(`${this.apiUrl}all`, localStorage.getItem('SMART_TOOLS_STUFF'), resolve, reject);
+      //this.http.getRequest(`${this.apiUrl}all`, localStorage.getItem('SMART_TOOLS_STUFF'), resolve, reject);
     });
-
   }
 }
