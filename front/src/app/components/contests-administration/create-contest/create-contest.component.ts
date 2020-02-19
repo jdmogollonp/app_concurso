@@ -35,7 +35,7 @@ export class CreateContestComponent implements OnInit {
     this.loading = true;
     this.constestAdministrationService.uploadContest(this.uploadedImage, this.contestUpload).then((data: string) => {
       window.scrollTo(0, 0);
-      // window.location.reload();
+      window.location.reload();
       this.loading = false;
       window.alert(data);
     }).catch(err => {

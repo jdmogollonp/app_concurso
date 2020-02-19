@@ -10,7 +10,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class ContestsAdministrationComponent implements OnInit {
   closeResult: string;
   constructor(private contestAdministrationService: ConstestAdministrationService, private modalService: NgbModal ) { }
-
+ contests = [];
   ngOnInit() {
     this.contestAdministrationService.getContests().then((data:Array<any>) => {
       console.log(data)

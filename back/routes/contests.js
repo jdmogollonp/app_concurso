@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { originalVideosPath, bannerContests } = require('../config');
+const { originalVideosPath, bannerContestsPath } = require('../config');
 const { verifyToken } = require('../libraries/jwt')
 const ContestsService = require('../services/contests');
 const ContestantsService = require('../services/contestants');
@@ -65,7 +65,6 @@ const contestsApi = (app) => {
   // The administrartor Creatres a contest
   router.post('/administrartor/new/contest', verifyToken, async (req, res) => {
     try {
-      console.log('prueba');
       const idadmin = req.decodedToken.sub;
       const imageFile = req.files.file;
       const { name, url, start_date, end_date, description } = JSON.parse(req.body.data);
@@ -74,7 +73,7 @@ const contestsApi = (app) => {
           errors: [`Todos los datos son requeridos`]
         });
       }
-      const imageFileName = `${bannerContests}/${url}_${new Date().getTime()}${path.extname(imageFile.name)}`
+      const imageFileName = `${bannerContestsPath}/${url}_${new Date().getTime()}${path.extname(imageFile.name)}`
       imageFile.mv(`${__dirname}/../../${imageFileName}`).then(async () => {
         const contestId = await contestsService.createContest(idadmin, { name, imageFileName, url, start_date, end_date, description });
         res.status(201).json({

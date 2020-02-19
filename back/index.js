@@ -5,7 +5,7 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const createFolder = require('./libraries/createFolder');
 
-const { port, host, allowedOrigin, processedVideosPath, originalVideosPath, production } = require('./config/index');
+const { port, host, allowedOrigin, processedVideosPath, originalVideosPath, production, bannerContestsPath } = require('./config/index');
 const path = require('path');
 
 const originalVideos = path.join(__dirname, '..', originalVideosPath);
@@ -13,9 +13,12 @@ createFolder(originalVideos);
 app.use(originalVideosPath, express.static(originalVideos));
 
 const processedVideos = path.join(__dirname, '..', processedVideosPath);
-
 createFolder(processedVideos);
 app.use(processedVideosPath, express.static(processedVideos));
+
+const bannerContests = path.join(__dirname, '..', bannerContestsPath);
+createFolder(bannerContests);
+app.use(bannerContests, express.static(bannerContests));
 
 const authApi = require('./routes/auth');
 const contestsApi = require('./routes/contests');
