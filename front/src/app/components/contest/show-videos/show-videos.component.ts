@@ -13,7 +13,9 @@ export class ShowVideosComponent implements OnInit {
   @Input() adminInfo: any;
   @Input() url: string;
   pager = {
-    pages: []
+    pages: [],
+    currentPage: -1,
+    totalPages: 0
   };
   videos = [];
 
