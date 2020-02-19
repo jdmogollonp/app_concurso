@@ -125,28 +125,7 @@ class ContestsService {
             }
         });
     }
-    // Gets all contest
-    getContests() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const connection = await mysql.connect();
-                const query = `SELECT * FROM ${this.table}`;
-                connection.query(query, [], async (err, results, fields) => {
-                    if (err) {
-                        console.log(err);
-                        return reject(err);
-                    } else {
-                        resolve(results);
-                        console.log(results)
-                    }
-                });
-                connection.release();
-            } catch (error) {
-                console.log(error);
-                reject(error);
-            }
-        });
-    }
+
 
     // Gets all contest
     getContests() {
@@ -182,7 +161,7 @@ class ContestsService {
                         return reject(err);
                     } else {
                         if (results.affectedRows) {
-                            resolve(results.affectedRows);
+                            resolve(fileName);
                         } else {
                             resolve(null);
                         }

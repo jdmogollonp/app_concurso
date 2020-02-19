@@ -44,7 +44,71 @@ const contestsApi = (app) => {
             res.status(201).json({
               data: 'El concurso fue actualizado exitosamente '
             });
-          } else {
+        }
+    });
+
+    // Get all contests
+    router.get('/administrartor/all', verifyToken, async (req, res) => {
+
+        try {
+            const contests = await contestsService.getContests()
+            if (contests) {
+                res.status(200).json({
+                    data: contests
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No existen concursos `]
+                });
+            }
+        } catch (error) {
+            res.status(404).json({
+                errors: ['Error cargando los concursos', error]
+            });
+        }
+
+    });
+
+    router.delete('/administrator/delete/:idcontest', verifyToken, async (req, res) => {
+        const idadmin = req.decodedToken.sub;
+        const { idcontest } = req.params;
+        try {
+            const contests = await contestsService.deleteContest(idadmin, idcontest)
+            if (contests) {
+                res.status(200).json({
+                    data: contests
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No se pudo borrar el concurso `]
+                });
+            }
+        } catch (error) {
+            res.status(404).json({
+                errors: ['Error borrando los concursos', error]
+            });
+        }
+
+    });
+
+    // Gets contestant info
+    router.get('/:url', async (req, res) => {
+        try {
+            console.log('Esta pidiendo info de concuros');
+            const { url } = req.params;
+            const { id } = req.body
+            const idcontestant = await contestService.getIdContestByUrl(url)
+            const contestant = await contestantsService.getcontestant(url, id);
+            if (contestant) {
+                res.json({
+                    data: contestant
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No existe un Participante con esa id en ese concurso `]
+                });
+            }
+        } catch (error) {
             res.status(400).json({
               errors: [`Error actualizando el concurso `]
             });
@@ -307,22 +371,30 @@ const contestsApi = (app) => {
   });
 
   router.post('/administrator/upload-image/:idcontest', verifyToken, async (req, res) => {
-    const idadmin = req.decodedToken.sub;
-    const { idcontest } = req.params;
-    const ImageFiles = req.files.image
+      const idadmin = req.decodedToken.sub;
+      const { idcontest } = req.params;
+      const ImageFiles = req.files.image
+      const ImageFileName = `${new Date().getTime()}${path.extname(ImageFiles.name)}`
+      ImageFiles.mv(`${__dirname}/../uploads/images/${ImageFileName}`).then(async () => {
+          //console.log(req.files)
+          try {
+              const contests = await contestsService.uploadImage(idadmin, idcontest, ImageFileName)
 
-    const ImageFileName = `${new Date().getTime()}${path.extname(ImageFiles.name)}`
-    ImageFiles.mv(`${__dirname}/../uploads/images/${ImageFileName}`).then(async () => {
-      //console.log(req.files)
-      try {
-        const contests = await contestsService.uploadImage(idadmin, idcontest, ImageFileName)
-        res.status(200).json(contests)
-      } catch (error) {
-        res.status(404).json({
-          errors: ['Error borrando los concursos', error]
-        });
-      }
-    })
+              if (contests) {
+                  res.status(200).json({
+                      data: contests
+                  });
+              } else {
+                  res.status(404).json({
+                      errors: [`No existe un concurso con ese id`]
+                  });
+              }
+          } catch (error) {
+              res.status(404).json({
+                  errors: ['Error subiendo la imagen al concurso', error]
+              });
+          }
+      })
   });
 
 

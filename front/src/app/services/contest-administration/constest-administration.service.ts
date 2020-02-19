@@ -17,6 +17,7 @@ export class ConstestAdministrationService {
       this.http.getRequest(`${this.apiUrl}all`, localStorage.getItem('SMART_TOOLS_STUFF'), resolve, reject);
       //this.http.getRequest(`${this.apiUrl}all`, localStorage.getItem('SMART_TOOLS_STUFF'), resolve, reject);
     });
+
   }
   uploadContest(imageFile: File, { url, start_date, end_date, description }) {
     return new Promise((resolve, reject) => {
