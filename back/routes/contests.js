@@ -5,6 +5,8 @@ const { verifyToken } = require('../libraries/jwt')
 const ContestsService = require('../services/contests');
 const ContestantsService = require('../services/contestants');
 const VideosService = require('../services/videos');
+// pagination
+const paginate = require('jw-paginate');
 
 
 
@@ -108,7 +110,6 @@ const contestsApi = (app) => {
                 });
             }
             const contest = await contestsService.getContestByUrl(url);
-
             if (!contest) {
                 return res.status(404).json({
                     errors: [`No existe el concurso especificado`]
@@ -149,6 +150,8 @@ const contestsApi = (app) => {
         }
     });
 
+
+
     // Gets the info of a contest
     router.get('/:url', async (req, res) => {
         try {
@@ -172,39 +175,78 @@ const contestsApi = (app) => {
     });
 
     // Gets the info of a video
-    router.get('/:url/videos/:id', async (req, res) => {
-        try {
-            const { id, url } = req.params;
-            const contest = await contestsService.getContestByUrl(url);
-            const idcontest = contest.id;
-            const event = await videosService.getVideoInfo(id, idcontest);
-            if (event) {
-                res.json({
-                    data: event
-                });
-            } else {
-                res.status(404).json({
-                    errors: [`No existe un video en el concurso  con id `]
-                });
-            }
-        } catch (error) {
-            res.status(400).json({
-                errors: [`Error cargando el video con id  dentro del concurso `, error]
-            });
-        }
-    });
+    // router.get('/:url/videos/:id', async (req, res) => {
+    //     try {
+    //         const { id, url } = req.params;
+    //         const contest = await contestsService.getContestByUrl(url);
+    //         const idcontest = contest.id;
+    //         const event = await videosService.getVideoInfo(id, idcontest);
+    //         if (event) {
+    //             res.json({
+    //                 data: event
+    //             });
+    //         } else {
+    //             res.status(404).json({
+    //                 errors: [`No existe un video en el concurso  con id `]
+    //             });
+    //         }
+    //     } catch (error) {
+    //         res.status(400).json({
+    //             errors: [`Error cargando el video con id  dentro del concurso `, error]
+    //         });
+    //     }
+    // });
 
-    // Gets all the video information with the correspondent contestant information from :url contest
+    // The admin gets all the videos information with the correspondent contestant information from :url contest
     router.get('/:url/videos', async (req, res, next) => {
         try {
             const { url } = req.params;
             const contest = await contestsService.getContestByUrl(url);
             const idcontest = contest.id;
-            const events = await videosService.getVideosContestant(idcontest);
-            console.log(events);
-
+            const events = await videosService.getVideosContestantAdmin(idcontest);
+            // get page from query params or default to first page
+            const page = parseInt(req.query.page) || 1;
+            // get pager object for specified page
+            const pageSize = 2;
+            const pager = paginate(events.length, page, pageSize);
+            // get page of videos from videos array
+            const pageOfVIdeos = events.slice(pager.startIndex, pager.endIndex + 1);
+            // return pager object and current page of videos
+            // return res.json({ pager, pageOfVIdeos });
             res.json({
-                data: events
+                data: pageOfVIdeos,
+                pager: pager
+            });
+        } catch (error) {
+            res.status(404).json({
+                errors: ['Error cargando los videos', error]
+            });
+        }
+    });
+
+    // Gets all the videos information with the correspondent contestant information from :url contest
+    router.get('/:url/videos/users', async (req, res, next) => {
+        try {
+            console.log('HOLA MANO QUe ES LA QUE HAY? x3')
+
+            const { url } = req.params;
+            const contest = await contestsService.getContestByUrl(url);
+            const idcontest = contest.id;
+            const events = await videosService.getVideosContestantUser(idcontest);
+            console.log(events);
+            // get page from query params or default to first page
+            const page = parseInt(req.query.page) || 1;
+            // get pager object for specified page
+            const pageSize = 2;
+            const pager = paginate(events.length, page, pageSize);
+            // get page of videos from videos array
+            const pageOfVIdeos = events.slice(pager.startIndex, pager.endIndex + 1);
+            // return pager object and current page of videos
+            // return res.json({ pager, pageOfVIdeos });
+            console.log(pager);
+            res.json({
+                data: pageOfVIdeos,
+                pager: pager
             });
         } catch (error) {
             res.status(404).json({
