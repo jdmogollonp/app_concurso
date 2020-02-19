@@ -73,9 +73,10 @@ const contestsApi = (app) => {
           errors: [`Todos los datos son requeridos`]
         });
       }
-      const imageFileName = `${bannerContestsPath}/${url}_${new Date().getTime()}${path.extname(imageFile.name)}`
-      imageFile.mv(`${__dirname}/../../${imageFileName}`).then(async () => {
-        const contestId = await contestsService.createContest(idadmin, { name, imageFileName, url, start_date, end_date, description });
+      const imageFileName = `${url}_${new Date().getTime()}${path.extname(imageFile.name)}`
+      imageFile.mv(`${__dirname}/../uploads/images/${imageFileName}`).then(async () => {
+        const image = imageFileName
+        const contestId = await contestsService.createContest(idadmin, { name, image, url, start_date, end_date, description });
         res.status(201).json({
           data: `Concurso creado exitosamente.`
         });
@@ -249,7 +250,7 @@ const contestsApi = (app) => {
 
   // Get all contests
   router.get('/administrartor/all', verifyToken, async (req, res) => {
-
+    
     try {
       const contests = await contestsService.getContests()
       if (contests) {
