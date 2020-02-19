@@ -250,9 +250,9 @@ const contestsApi = (app) => {
 
   // Get all contests
   router.get('/administrartor/all', verifyToken, async (req, res) => {
-    
+    const idadmin = req.decodedToken.sub;
     try {
-      const contests = await contestsService.getContests()
+      const contests = await contestsService.getContests(idadmin)
       if (contests) {
         res.status(200).json({
           data: contests

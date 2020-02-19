@@ -128,12 +128,12 @@ class ContestsService {
 
 
     // Gets all contest
-    getContests() {
+    getContests(idadmin) {
         return new Promise(async (resolve, reject) => {
             try {
                 const connection = await mysql.connect();
-                const query = `SELECT * FROM ${this.table}`;
-                connection.query(query, [], async (err, results, fields) => {
+                const query = `SELECT * FROM ${this.table}  WHERE administrator_id = ?;`;
+                connection.query(query, [idadmin], async (err, results, fields) => {
                     if (err) {
                         console.log(err);
                         return reject(err);
