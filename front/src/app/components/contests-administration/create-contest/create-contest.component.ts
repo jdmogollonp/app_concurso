@@ -11,6 +11,7 @@ export class CreateContestComponent implements OnInit {
     public loading = false;
 
     public contestUpload = {
+      name: '',
       url: '',
       start_date: '',
       end_date: '',

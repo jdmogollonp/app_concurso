@@ -14,7 +14,7 @@ export class HttpHelperService {
   getAuthorizationOptionsHeaders(token: any) {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+
         Authorization: token
       })
     };

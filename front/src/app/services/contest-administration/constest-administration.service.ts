@@ -19,18 +19,15 @@ export class ConstestAdministrationService {
     });
 
   }
-  uploadContest(imageFile: File, { url, start_date, end_date, description }) {
+  uploadContest(imageFile: File, { name, url, start_date, end_date, description }) {
     return new Promise((resolve, reject) => {
-      if (!imageFile || !url  || !end_date || !description) {
+      if (!imageFile || !url  || !end_date || !description || !name) {
         return reject('Todos los campos son requeridos');
       }
       const formData = new FormData();
       formData.append('file', imageFile);
-      formData.append('data', JSON.stringify({ url, start_date, end_date, description }));
-      console.log(url);
-      console.log(imageFile);
-
-      // this.http.postRequest(`${this.apiUrl}new`, formData, localStorage.getItem('SMART_TOOLS_STUFF'), resolve, reject);
+      formData.append('data', JSON.stringify({ name, url, start_date, end_date, description }));
+      this.http.postRequest(`http://localhost:3001/api/contests/administrartor/new/contest`, formData, localStorage.getItem('SMART_TOOLS_STUFF'), resolve, reject);
     });
   }
 }

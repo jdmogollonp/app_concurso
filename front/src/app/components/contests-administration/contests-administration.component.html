@@ -17,7 +17,7 @@
   <div class="container mt-3">
     <div class="clearfix mb-3">
         <h3 class="float-left" >Concursos</h3>
-        <button type="button" class="btn btn-warning float-right">Crear Concurso</button>
+        <button type="button" (click)="open(content)" class="btn btn-warning float-right">Crear Concurso</button>
     </div>
     <div class="row">
         <div class="col">
@@ -63,14 +63,9 @@
               </div>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
   </div>
+  <ng-template #content let-modal>
+    <div class="modal-body">
+      <app-create-contest></app-create-contest>
+    </div>
+  </ng-template>
