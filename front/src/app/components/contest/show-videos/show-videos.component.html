@@ -7,13 +7,11 @@
     <div class="row d-flex align-items-center">
       <div class="col-lg-6 text-center">
         <ng-container *ngIf="!video.selected">
-          <video *ngIf="video.converted_video" [src]="video.converted_video" controls width="300px"
-            poster="../../../../assets/Video-Contest.jpg"></video>
+          <video *ngIf="video.converted_video" [src]="video.converted_video" controls width="300px"></video>
           <h4 *ngIf="!video.converted_video">Video no disponible</h4>
         </ng-container>
         <ng-container *ngIf="video.selected">
-          <video [src]="video.original_video" controls width="300px"
-            poster="../../../../assets/Video-Contest.jpg"></video>
+          <video [src]="video.original_video" controls width="300px"></video>
         </ng-container>
         <ng-container *ngIf="adminInfo">
           <h6 class="text-center mt-1">Video <span *ngIf="!video.selected">convertido</span><span
@@ -33,42 +31,6 @@
     </div>
   </div>
 </ng-container>
-
-<!-- <table class="table table-image table-hover ">
-    <thead class="black thead-light">
-      <tr>
-        <th scope="col" class="text-center">Video<span *ngIf="adminInfo"> convertido</span></th>
-        <th scope="col" class="text-center">Descripción</th>
-        <th *ngIf="adminInfo" scope="col" class="text-center">Video Original</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngIf="loading">
-        <td [colSpan]="adminInfo ? 7 : 4">
-          <h1 class="fas fa-spin fa-spinner text-center text-primary mt-3"></h1>
-        </td>
-      </tr>
-      <ng-container *ngIf="!loading">
-        <tr >
-          <td class="text-center">
-            <video *ngIf="video.converted_video" [src]="video.converted_video" controls width="300px"
-              poster="../../../../assets/Video-Contest.jpg"></video>
-          </td>
-          <td class="text-center">
-            <p class="small text-right mb-0">{{video.creation_date | date: 'yyyy-MM-dd'}}</p>
-            <p>{{video.message}}</p>
-            <p>- {{video.name}} {{video.last_name}}</p>
-            <p *ngIf="adminInfo">{{video.email}}</p>
-          </td>
-          <td *ngIf="adminInfo" class="text-center">
-            <video *ngIf="video.original_video" [src]="video.original_video" controls width="300px"
-              poster="../../../../assets/Video-Contest.jpg"> </video>
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table> -->
-
 
 
 <div *ngIf="!loading" class="card-footer pb-0 pt-3 d-flex align-items-center justify-content-center">
