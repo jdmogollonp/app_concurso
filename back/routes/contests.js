@@ -218,7 +218,15 @@ const contestsApi = (app) => {
 
         try {
             const contests = await contestsService.getContests()
-            res.status(200).json(contests)
+            if (contests) {
+                res.status(200).json({
+                    data: contests
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No existen concursos `]
+                });
+            }
         } catch (error) {
             res.status(404).json({
                 errors: ['Error cargando los concursos', error]
@@ -232,7 +240,15 @@ const contestsApi = (app) => {
         const { idcontest } = req.params;
         try {
             const contests = await contestsService.deleteContest(idadmin, idcontest)
-            res.status(200).json(contests)
+            if (contests) {
+                res.status(200).json({
+                    data: contests
+                });
+            } else {
+                res.status(404).json({
+                    errors: [`No se pudo borrar el concurso `]
+                });
+            }
         } catch (error) {
             res.status(404).json({
                 errors: ['Error borrando los concursos', error]
